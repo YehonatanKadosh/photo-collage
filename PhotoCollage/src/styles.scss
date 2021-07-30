@@ -1,0 +1,61 @@
+/* You can add global styles to this file, and also import other style files */
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
+@import "~@angular/material/theming";
+@include mat-core();
+// Light theme
+$light-primary: mat-palette($mat-indigo);
+$light-accent: mat-palette($mat-pink, A200, A100, A400);
+$light-mode: mat-light-theme($light-primary, $light-accent);
+
+// Dark theme
+$dark-primary: mat-palette($mat-blue-grey);
+$dark-accent: mat-palette($mat-amber, A200, A100, A400);
+$dark-warn: mat-palette($mat-deep-orange);
+$dark-mode: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+
+@import "./app/components/header/header.component.scss";
+@mixin custom-components-theme($theme) {
+  @include sidenav-theme($theme);
+}
+
+.light-mode {
+  @include angular-material-theme($light-mode);
+  @include custom-components-theme($light-mode);
+}
+
+.dark-mode {
+  @include angular-material-theme($dark-mode);
+  @include custom-components-theme($dark-mode);
+}
+
+.body {
+  transition: 0.5s;
+}
+
+:root {
+  --animation-time: 0.5s;
+  --TogglericonFontSize: 1em;
+}
+
+.row,
+.row > * {
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
+.mat-tab-body-wrapper {
+  flex-grow: 1 !important;
+}
+
+.main,
+.mat-tab-body-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: -webkit-center;
+}
+
+.mat-dialog-container {
+  padding: 5px 10px 5px 10px !important;
+  overflow: hidden !important;
+}

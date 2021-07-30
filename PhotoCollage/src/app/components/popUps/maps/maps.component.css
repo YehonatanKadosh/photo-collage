@@ -1,0 +1,9 @@
+.map {
+  width: 75vh;
+  height: 75vh;
+}
+.back {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+}

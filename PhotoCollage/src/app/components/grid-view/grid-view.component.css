@@ -1,0 +1,25 @@
+.Result {
+  width: fit-content;
+  height: fit-content;
+  text-align-last: center;
+  margin: 4px;
+  padding: 12px;
+  box-shadow: 0px 0px 15px black !important;
+}
+
+.Result .resultIcon {
+  visibility: hidden;
+  position: absolute;
+  top: calc(50% - 20px);
+  float: right;
+}
+.Result:hover .resultIcon {
+  visibility: visible;
+}
+
+.infoIcon {
+  left: calc(25% - 20px);
+}
+.trashIcon {
+  right: calc(25% - 20px);
+}

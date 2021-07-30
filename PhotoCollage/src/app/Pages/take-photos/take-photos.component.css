@@ -1,0 +1,15 @@
+.DoneBtn {
+  bottom: 5%;
+  right: 5%;
+}
+
+.photosBar,
+.DoneBtn {
+  position: -webkit-sticky;
+  position: sticky;
+}
+
+.photosBar {
+  bottom: 0;
+  z-index: 3;
+}

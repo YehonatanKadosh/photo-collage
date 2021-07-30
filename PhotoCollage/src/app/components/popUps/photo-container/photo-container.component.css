@@ -1,0 +1,85 @@
+.containerImage {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.mat-card-image {
+  margin: 0 -16px 0 -16px !important;
+}
+
+.locationIcon {
+  color: red;
+}
+.favoriteIcon {
+  color: gold;
+}
+.saveAndExitBtn {
+  background-color: red;
+}
+
+button {
+  vertical-align: middle;
+}
+
+button span {
+  display: none;
+}
+
+button:hover span {
+  display: flex;
+}
+
+span {
+  position: absolute;
+  left: 0%;
+}
+
+span.bottom {
+  top: 100%;
+}
+
+span.top {
+  bottom: 100%;
+}
+
+.mat-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0 !important;
+}
+
+.mat-form-field {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.mat-dialog-content {
+  max-height: 325px !important;
+  overflow: hidden !important;
+}
+
+.saveAndExitBtn.saving {
+  animation: saving 1s linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes saving {
+  0% {
+    transform: rotate(0deg);
+    background-color: red;
+  }
+  25% {
+    transform: rotate(315deg);
+    background-color: green;
+  }
+  75% {
+    transform: rotate(315deg);
+    background-color: green;
+  }
+  100% {
+    transform: rotate(720deg);
+    background-color: red;
+  }
+}

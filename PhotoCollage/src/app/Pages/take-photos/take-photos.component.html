@@ -1,0 +1,33 @@
+<div class="h-100 d-flex flex-column">
+    <mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)" dynamicHeight class="row flex-grow-1">
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon>camera</mat-icon>
+                Camera
+            </ng-template>
+            <app-photo-from-camera *ngIf="selectedTab == 0"></app-photo-from-camera>
+        </mat-tab>
+        <mat-tab class="flex-grow-1">
+            <ng-template mat-tab-label>
+                <mat-icon>storage</mat-icon>
+                Device
+            </ng-template>
+            <app-photo-from-local-machine></app-photo-from-local-machine>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon>language</mat-icon>
+                Web
+            </ng-template>
+             <app-photo-from-the-web ></app-photo-from-the-web>
+        </mat-tab>
+    </mat-tab-group>
+    <div class="photosBar row">
+        <div class="col-11">
+            <app-photos-bar></app-photos-bar>
+        </div>
+        <div class="col-1 d-flex flex-column justify-content-center align-items-center">
+            <button class="btn btn-primary DoneBtn" (click)="Done()">Done</button>
+        </div>
+    </div>
+</div>

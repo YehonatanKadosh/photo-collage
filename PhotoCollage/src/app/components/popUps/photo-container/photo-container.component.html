@@ -1,0 +1,46 @@
+<mat-card-content>
+    <mat-form-field>
+        <mat-label>{{image.caption.split('.').slice(0, -1).join('.') || image.caption}}</mat-label>
+        <input matInput [formControl]="newPhotoName" (change)="nameChanged()">
+        <mat-icon matSuffix>edit</mat-icon>
+    </mat-form-field>
+    
+    <button class="saveAndExitBtn" [ngClass]="{'saving':saving}" mat-mini-fab (click)="close()" >
+        <span class="top">Exit</span>
+        <mat-icon>close</mat-icon>
+    </button>
+</mat-card-content>
+
+<div class="main">
+    <img mat-card-image class="containerImage" *ngIf="!image.linkDeprecated" [src]="image.url"  >
+    <mat-card-content *ngIf="image.linkDeprecated">URL invalid or expired</mat-card-content>
+</div>
+
+<mat-card-content>
+    <mat-form-field class="w-50">
+        <mat-label>categories</mat-label>
+        <mat-select>
+            <mat-option *ngFor="let category of image.categories" [value]="category.name">
+                {{category.name}}
+            </mat-option>
+            <mat-option (click)="addCategoryClick()">
+                Add category
+            <mat-icon matSuffix>add</mat-icon>
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    
+    <button mat-mini-fab color="primary" (click)="openMap()">
+        <span class="bottom">Location</span>
+        <mat-icon class="locationIcon">pin_drop</mat-icon>
+    </button>
+    <button mat-mini-fab color="primary" (click)="favoriteChanged()">
+        <span class="bottom">Favorite</span>
+        <mat-icon class="favoriteIcon">{{image.favorite? 'star' : 'star_border' }}</mat-icon>             
+    </button>
+    <button mat-mini-fab color="primary" (click)="isPrivateChanged()">
+        <span class="bottom">Privacy</span>
+        <mat-icon>{{image.isPrivate ? 'lock':'lock_open'}}</mat-icon>             
+    </button>
+</mat-card-content>
+    

@@ -1,0 +1,14 @@
+<mat-card-title>
+    <mat-icon matSuffix [mat-dialog-close]="true">arrow_back</mat-icon>
+    categories
+    <button mat-mini-fab color="primary" (click)="newCategoryClick()">
+        <mat-icon matSuffix>add</mat-icon>
+    </button>
+</mat-card-title>
+<mat-dialog-content >
+    <mat-selection-list #categories [(ngModel)]="selectedCategories" (ngModelChange)="categoriesSelectionChange($event)">
+        <mat-list-option [value]='category.name' *ngFor="let category of getAllCategories()">
+            {{category.name}}
+        </mat-list-option>
+    </mat-selection-list>
+ </mat-dialog-content>

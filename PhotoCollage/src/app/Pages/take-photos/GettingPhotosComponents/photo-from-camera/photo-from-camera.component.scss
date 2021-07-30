@@ -1,0 +1,62 @@
+$image-fit: scale-down;
+$image-radius: 10px;
+$image-width: 100%;
+$image-height: 100%;
+
+.Icon-Container {
+  z-index: 3;
+  text-align: center;
+  border: 3px solid white;
+  border-radius: 50%;
+  padding: 5px;
+  background: navajowhite;
+  position: absolute;
+}
+.labels {
+  position: absolute;
+  color: white;
+  transition: color 3s linear;
+}
+
+.DiscarIcon {
+  left: 5%;
+  top: 50%;
+}
+.PowerOffIcon {
+  top: 5%;
+  left: 5%;
+}
+.PowerOffIcon,
+.DiscarIcon {
+  color: darkred;
+}
+
+.CheckIcon {
+  right: 5%;
+  top: 50%;
+}
+.ShootingIcon {
+  bottom: 5%;
+  left: 50%;
+}
+.CheckIcon,
+.ShootingIcon {
+  color: green;
+}
+
+:host ::ng-deep {
+  .capturedImage,
+  .webcam-container .webcam-wrapper,
+  .webcam-wrapper video {
+    object-fit: $image-fit;
+    border-radius: $image-radius;
+    width: $image-width;
+    height: $image-height;
+  }
+}
+
+.WebCamContainer {
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+}

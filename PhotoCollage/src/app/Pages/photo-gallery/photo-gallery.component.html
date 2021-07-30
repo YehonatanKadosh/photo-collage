@@ -1,0 +1,30 @@
+<mat-card #Gallery>
+  <mat-card-title>{{getLibraryName()}}</mat-card-title>
+  <mat-form-field class="w-50">
+    <mat-label>Search by name</mat-label>
+    <input matInput [(ngModel)]="searchQuery" (change)="getImages()" placeholder="name">
+  </mat-form-field>
+  <br/>
+  <mat-form-field class="w-50">
+    <mat-label>Search by category</mat-label>
+    <mat-select [(value)] = "CategorySelection" (selectionChange)="getImages()">
+      <mat-option>No Category</mat-option>
+      <mat-option *ngFor="let category of getAllCategories()" [value]="category.name">
+        {{category.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-mini-fab color="primary" class="position-absolute" (click)="newCategoryClick()">
+      <mat-icon matSuffix>add</mat-icon>
+  </button>
+  
+  <div *ngIf="searching">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div><br/>
+  
+  <app-grid-view *ngIf="images && images.length>0 else NoImageFound" [images]="images"></app-grid-view>
+</mat-card>
+
+<ng-template #NoImageFound>
+    <h4 mat-subheader>No results</h4>
+</ng-template>

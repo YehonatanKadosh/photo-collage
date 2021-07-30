@@ -1,0 +1,28 @@
+.search_container {
+  margin-top: 2%;
+  min-width: 100vh;
+}
+
+.search,
+.amount {
+  height: 70px;
+  max-height: 70px;
+  font-size: 3.5em;
+}
+.Result {
+  width: fit-content;
+  height: fit-content;
+  text-align-last: center;
+  margin: 4px;
+  padding: 12px;
+  box-shadow: 0px 0px 15px black !important;
+}
+
+.Result:hover {
+  background-color: lightgreen;
+}
+
+.searching-input,
+.searchButton {
+  margin: 2%;
+}

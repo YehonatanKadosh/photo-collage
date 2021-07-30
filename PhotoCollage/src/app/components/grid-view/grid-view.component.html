@@ -1,0 +1,10 @@
+<mat-card *ngFor="let image of images" class="Result d-inline-block">
+    <img mat-card-lg-image *ngIf="!image.linkDeprecated" src="{{image.url}}" (error)="deprecatedUrl(image)">
+    <mat-card-content *ngIf="image.linkDeprecated">URL invalid or expired</mat-card-content>
+    <button mat-mini-fab color="primary" class="resultIcon infoIcon" (click)="popPhotoContainer(image)">
+        <mat-icon matSuffix >info</mat-icon>
+    </button>
+    <button mat-mini-fab color="warn" class="resultIcon trashIcon" (click)="deleteImage(image)">
+        <mat-icon matSuffix >delete</mat-icon>
+    </button>
+</mat-card>

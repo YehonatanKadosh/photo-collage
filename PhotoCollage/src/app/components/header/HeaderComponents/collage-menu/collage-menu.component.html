@@ -1,0 +1,28 @@
+<button mat-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="changeMode()">
+        <mat-icon *ngIf="darkMode">dark_mode</mat-icon>
+        <mat-icon *ngIf="!darkMode">light_mode</mat-icon>
+        <span>Theme</span>
+    </button>
+    <button mat-menu-item (click)="changePrivacy()">
+        <mat-icon *ngIf="isPrivate">lock</mat-icon>
+        <mat-icon *ngIf="!isPrivate">lock_open</mat-icon>
+        <span>Private</span>
+    </button>
+    <button mat-menu-item>
+        <mat-icon>category</mat-icon>
+        <span>Categories</span>
+    </button>
+    <button mat-menu-item>
+        <mat-icon>info</mat-icon>
+        <span>About</span>
+    </button>
+    <button mat-menu-item>
+        <mat-icon>logout</mat-icon>
+        <span>Exit</span>
+    </button>
+</mat-menu>
+<!-- <God></God> -->

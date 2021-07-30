@@ -1,0 +1,41 @@
+.Image-Group {
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  height: 15vh;
+  padding: 4px;
+}
+.Image-Group:hover {
+  margin-left: 2vh;
+  margin-right: 2vh;
+  border-color: red;
+}
+.images {
+  display: flex;
+  width: fit-content;
+  flex-direction: column;
+}
+
+.PhotoBarContainer {
+  width: 100%;
+  display: flex;
+  overflow: auto;
+}
+
+.Plabel {
+  position: absolute;
+  top: 100%;
+}
+.Public {
+  color: blue;
+}
+.Private {
+  color: red;
+}
+
+.privateContainer {
+  position: relative;
+}
+
+.TogglerBar {
+  text-align: -webkit-center;
+}

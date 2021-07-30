@@ -1,0 +1,10 @@
+<div class="categoryContainer">
+    <mat-icon matSuffix mat-dialog-close>arrow_back</mat-icon>
+    <mat-form-field>
+        <mat-label>Category name</mat-label>
+        <input matInput [formControl]="newCategoryName">
+    </mat-form-field>
+    <button mat-mini-fab color="primary" (click)="setNewCategory()">
+        <mat-icon class="addIcon" matSuffix>add</mat-icon>
+    </button>
+</div>
