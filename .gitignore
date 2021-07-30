@@ -1,0 +1,48 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+PhotoCollage/dist
+PhotoCollage/tmp
+PhotoCollage/out-tsc
+# Only exists if Bazel was run
+PhotoCollage/bazel-out
+
+# dependencies
+PhotoCollage/node_modules
+
+# environment var
+PhotoCollage/environments
+# profiling files
+PhotoCollage/chrome-profiler-events*.json
+PhotoCollage/speed-measure-plugin*.json
+
+# IDEs and editors
+PhotoCollage/.idea
+PhotoCollage/.project
+PhotoCollage/.classpath
+PhotoCollage/.c9/
+*.launch
+PhotoCollage/.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+PhotoCollage/.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# misc
+PhotoCollage/.sass-cache
+PhotoCollage/connect.lock
+PhotoCollage/coverage
+PhotoCollage/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+PhotoCollage/typings
+
+# System Files
+PhotoCollage/.DS_Store
+Thumbs.db
