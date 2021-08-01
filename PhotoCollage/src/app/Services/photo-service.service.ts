@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { EventEmitter, Injectable, NgZone } from '@angular/core';
+import { Attribute, EventEmitter, Injectable, NgZone } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Photo } from 'src/Modules/Photo';
 import { environment } from 'src/environments/environment';
@@ -44,6 +44,13 @@ export class PhotoService {
           })
       );
     });
+    this.imageDeprecated.subscribe((imageId) => {
+      this.http
+        .put(environment.Photos_API_URl + '/setDeprecated', {
+          id: imageId,
+        })
+        .subscribe();
+    });
   }
 
   PhotoExists = async (photoUrl: string): Promise<boolean> => {
@@ -65,6 +72,7 @@ export class PhotoService {
     });
   };
 
+  // For the Gallery
   getPhotosFromServer = async (
     searchQuery?: string,
     searchCategory?: string
@@ -176,19 +184,6 @@ export class PhotoService {
       .subscribe();
   };
 
-  setDeprecatedLink = async (imageId: number) => {
-    return new Promise(async (res, rej) => {
-      await this.http
-        .put(environment.Photos_API_URl + '/setDeprecated', {
-          id: imageId,
-        })
-        .subscribe(
-          (next) => {},
-          (error) => {},
-          () => res(true)
-        );
-    });
-  };
   getBase64(file: File): Promise<string> {
     return new Promise((res, rej) => {
       let reader = new FileReader();
@@ -202,6 +197,7 @@ export class PhotoService {
     });
   }
   getAllPhotos = (): Photo[] => this.photos;
+  imageDeprecated: EventEmitter<number> = new EventEmitter<number>();
   getNewUrl: EventEmitter<string> = new EventEmitter<string>();
   getNewPhoto: EventEmitter<Photo> = new EventEmitter<Photo>();
   getNewFiles: EventEmitter<File[]> = new EventEmitter<File[]>();

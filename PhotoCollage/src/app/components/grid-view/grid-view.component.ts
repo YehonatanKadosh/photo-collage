@@ -13,14 +13,13 @@ export class GridViewComponent implements OnInit {
   @Input()
   images: Photo[];
 
-  constructor(private photoService: PhotoService, public dialog: MatDialog) {}
+  constructor(private photoService: PhotoService, public dialog: MatDialog) {
+    this.photoService.imageDeprecated.subscribe((id: number) => {
+      this.images.find((i) => i.id == id).linkDeprecated = true;
+    });
+  }
 
   ngOnInit(): void {}
-
-  deprecatedUrl = async (image: Photo) => {
-    image.linkDeprecated = true;
-    await this.photoService.setDeprecatedLink(image.id);
-  };
 
   popPhotoContainer(image: Photo) {
     this.dialog.open(PhotoContainerComponent, {

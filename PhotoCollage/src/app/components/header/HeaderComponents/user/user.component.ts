@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { Component, Input, OnInit } from '@angular/core';
 import { UserService } from 'src/app/Services/user-service.service';
+import { User } from 'src/Modules/User';
 
 @Component({
   selector: 'app-user',
@@ -8,19 +8,21 @@ import { UserService } from 'src/app/Services/user-service.service';
   styleUrls: ['./user.component.css'],
 })
 export class UserComponent implements OnInit {
-  Template: string;
+  @Input() user: User;
+  Template: string = 'Grid';
 
   constructor(private userService: UserService) {
-    this.initUserPreferences();
+    this.userService.userExistsEventEmmiter.subscribe((user: User) => {
+      this.Template = user.template;
+    });
   }
   ngOnInit(): void {}
 
-  initUserPreferences = async () => {
-    this.Template = this.userService.user?.template || 'Grid';
-  };
-
   templateChange = () => {
-    // this.userService.user.changeTemplate(this.Template === 'Grid' ? 'List' : 'Grid');
-    this.initUserPreferences();
+    if (this.user)
+      this.userService.setLibraryNameDescriptionAndTempplate({
+        template: this.user?.template === 'Grid' ? 'List' : 'Grid',
+      });
+    else this.Template = this.Template === 'Grid' ? 'List' : 'Grid';
   };
 }

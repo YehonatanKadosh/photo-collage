@@ -1,5 +1,4 @@
 <mat-card #Gallery>
-  <mat-card-title>{{getLibraryName()}}</mat-card-title>
   <mat-form-field class="w-50">
     <mat-label>Search by name</mat-label>
     <input matInput [(ngModel)]="searchQuery" (change)="getImages()" placeholder="name">

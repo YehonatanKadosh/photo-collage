@@ -18,9 +18,23 @@ $dark-mode: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
   @include sidenav-theme($theme);
 }
 
+@mixin mat-card-theme($theme) {
+  @include sidenav-theme($theme);
+}
+
 .light-mode {
   @include angular-material-theme($light-mode);
   @include custom-components-theme($light-mode);
+}
+
+@mixin sidenav-theme($theme) {
+  $primary: map-get($theme, primary);
+  $warn: map-get($theme, warn);
+
+  .Header {
+    background: mat-color($primary, darker);
+    color: mat-color($primary, default-contrast);
+  }
 }
 
 .dark-mode {

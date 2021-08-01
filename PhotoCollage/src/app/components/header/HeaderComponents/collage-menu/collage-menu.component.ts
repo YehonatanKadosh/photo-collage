@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { SiteStateService } from 'src/app/Services/site-state.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { UserService } from 'src/app/Services/user-service.service';
 import { environment } from 'src/environments/environment';
+import { User } from 'src/Modules/User';
 
 @Component({
   selector: 'app-collage-menu',
@@ -8,25 +9,22 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./collage-menu.component.css'],
 })
 export class CollageMenuComponent implements OnInit {
+  @Input() user: User;
   darkMode: boolean;
   isPrivate: boolean;
 
-  constructor(private siteState: SiteStateService) {
-    this.setTheme();
+  constructor(private userService: UserService) {
+    this.userService.userExistsEventEmmiter.subscribe((user: User) => {
+      this.darkMode = user.preferedTheme === environment.DARK_MODE;
+    });
   }
   ngOnInit(): void {}
 
-  setTheme = async () => {
-    await this.siteState.getTheme().then((theme) => {
-      this.darkMode = theme == environment.DARK_MODE;
-    });
-  };
-
   changeMode = () => {
     this.darkMode = !this.darkMode;
-    this.siteState.modeSwitch.emit({
+    this.userService.themeSwitch.emit({
       theme: this.darkMode ? environment.DARK_MODE : environment.LIGHT_MODE,
-      token: 0,
+      token: this.user ? 0 : 1,
     });
   };
 

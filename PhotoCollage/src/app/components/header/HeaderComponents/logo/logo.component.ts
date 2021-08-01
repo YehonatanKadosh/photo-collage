@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { UserService } from 'src/app/Services/user-service.service';
+import { User } from 'src/Modules/User';
 
 @Component({
   selector: 'app-logo',
@@ -6,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./logo.component.css'],
 })
 export class LogoComponent implements OnInit {
-  constructor() {}
-
+  @Input() user: User;
+  constructor(private userService: UserService) {}
   ngOnInit(): void {}
 }

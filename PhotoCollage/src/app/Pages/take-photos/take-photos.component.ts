@@ -19,7 +19,7 @@ export class TakePhotosComponent implements OnInit {
       this.router.navigateByUrl('/PhotoGallery');
     await this.photoService
       .saveNewPhotos()
-      .then((finished) => this.router.navigateByUrl('/PhotoGallery'));
+      .then(() => this.router.navigateByUrl('/PhotoGallery'));
   };
   tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
     this.selectedTab = tabChangeEvent.index;

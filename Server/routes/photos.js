@@ -21,8 +21,7 @@ router.post("/addPhotos", async (req, res) => {
       ))
     ) {
       if (photo.isBase64) await addImageToDB(photo);
-      if (jsonFile) jsonFile.push(photo);
-      else jsonFile = [photo];
+      jsonFile.push(photo);
       itemsProcessed++;
     } else itemsProcessed++;
     if (itemsProcessed === req.body.length) {
@@ -52,7 +51,7 @@ router.get("/getPhotos", async (req, res) => {
 
 router.put("/setFavorite", async (req, res) => {
   jsonFile = await setJsonFileIfNotExist();
-  if (jsonFile != []) {
+  if (jsonFile.length) {
     jsonFile.find((photo) => photo.id == req.body.id).favorite =
       req.body.favorite;
     await fs.writeFile(jsonFilePath, JSON.stringify(jsonFile));
@@ -62,7 +61,7 @@ router.put("/setFavorite", async (req, res) => {
 
 router.put("/setPrivate", async (req, res) => {
   jsonFile = await setJsonFileIfNotExist();
-  if (jsonFile != []) {
+  if (jsonFile.length) {
     jsonFile.find((photo) => photo.id == req.body.id).isPrivate =
       req.body.isPrivate;
     await fs.writeFile(jsonFilePath, JSON.stringify(jsonFile));
@@ -72,7 +71,7 @@ router.put("/setPrivate", async (req, res) => {
 
 router.put("/setCategory", async (req, res) => {
   jsonFile = await setJsonFileIfNotExist();
-  if (jsonFile != []) {
+  if (jsonFile.length) {
     let selectedPhoto = jsonFile.find((photo) => photo.id == req.body.id);
     if (selectedPhoto.categories)
       selectedPhoto.categories.push(req.body.category);
@@ -86,7 +85,7 @@ router.put("/setCategory", async (req, res) => {
 
 router.put("/setCategories", async (req, res) => {
   jsonFile = await setJsonFileIfNotExist();
-  if (jsonFile != []) {
+  if (jsonFile.length) {
     let selectedPhoto = jsonFile.find((photo) => photo.id == req.body.id);
     selectedPhoto.categories = req.body.categories;
     await fs.writeFile(jsonFilePath, JSON.stringify(jsonFile));
@@ -96,7 +95,7 @@ router.put("/setCategories", async (req, res) => {
 
 router.put("/setName", async (req, res) => {
   jsonFile = await setJsonFileIfNotExist();
-  if (jsonFile != []) {
+  if (jsonFile.length) {
     jsonFile.find((photo) => photo.id == req.body.id).caption = req.body.name;
     await fs.writeFile(jsonFilePath, JSON.stringify(jsonFile));
   }
@@ -105,7 +104,7 @@ router.put("/setName", async (req, res) => {
 
 router.put("/setDeprecated", async (req, res) => {
   jsonFile = await setJsonFileIfNotExist();
-  if (jsonFile != []) {
+  if (jsonFile.length) {
     jsonFile.find((photo) => photo.id == req.body.id).linkDeprecated = true;
     await fs.writeFile(jsonFilePath, JSON.stringify(jsonFile));
   }
@@ -114,7 +113,7 @@ router.put("/setDeprecated", async (req, res) => {
 
 router.post("/removeImage", async (req, res) => {
   jsonFile = await setJsonFileIfNotExist();
-  if (jsonFile != []) {
+  if (jsonFile.length) {
     let imageToRemove = jsonFile.find((image) => image.id == req.body.id);
     let imageLocation = jsonFile.indexOf(imageToRemove);
     jsonFile.splice(imageLocation, 1);
@@ -135,7 +134,7 @@ const addImageToDB = async (photo) => {
 
 const checkIfExistsInJson = async (isBase64, fileName, jsonFile) => {
   return new Promise((resolve) => {
-    if (jsonFile)
+    if (jsonFile.length)
       if (
         jsonFile.find((photo) =>
           isBase64 ? photo.caption == fileName : photo.url == fileName

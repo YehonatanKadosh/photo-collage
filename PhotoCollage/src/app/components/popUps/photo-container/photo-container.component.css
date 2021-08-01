@@ -32,15 +32,15 @@ button:hover span {
 
 span {
   position: absolute;
-  left: 0%;
 }
 
 span.bottom {
-  top: 100%;
+  top: calc(100% - 8px);
+  left: 0px;
 }
 
 span.top {
-  bottom: 100%;
+  bottom: calc(100% - 8px);
 }
 
 .mat-card-content {
@@ -68,7 +68,6 @@ span.top {
 @keyframes saving {
   0% {
     transform: rotate(0deg);
-    background-color: red;
   }
   25% {
     transform: rotate(315deg);
@@ -80,6 +79,5 @@ span.top {
   }
   100% {
     transform: rotate(720deg);
-    background-color: red;
   }
 }

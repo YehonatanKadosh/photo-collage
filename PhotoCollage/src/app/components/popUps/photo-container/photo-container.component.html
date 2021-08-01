@@ -5,9 +5,9 @@
         <mat-icon matSuffix>edit</mat-icon>
     </mat-form-field>
     
-    <button class="saveAndExitBtn" [ngClass]="{'saving':saving}" mat-mini-fab (click)="close()" >
-        <span class="top">Exit</span>
+    <button class="saveAndExitBtn" color="warn" [ngClass]="{'saving':saving}" mat-mini-fab (click)="close()" >
         <mat-icon>close</mat-icon>
+        <span class="top">Exit</span>
     </button>
 </mat-card-content>
 
@@ -25,22 +25,22 @@
             </mat-option>
             <mat-option (click)="addCategoryClick()">
                 Add category
-            <mat-icon matSuffix>add</mat-icon>
+                <mat-icon matSuffix>add</mat-icon>
             </mat-option>
         </mat-select>
     </mat-form-field>
     
     <button mat-mini-fab color="primary" (click)="openMap()">
-        <span class="bottom">Location</span>
         <mat-icon class="locationIcon">pin_drop</mat-icon>
+        <span class="bottom">Location</span>
     </button>
     <button mat-mini-fab color="primary" (click)="favoriteChanged()">
-        <span class="bottom">Favorite</span>
         <mat-icon class="favoriteIcon">{{image.favorite? 'star' : 'star_border' }}</mat-icon>             
+        <span class="bottom">Favorite</span>
     </button>
     <button mat-mini-fab color="primary" (click)="isPrivateChanged()">
-        <span class="bottom">Privacy</span>
         <mat-icon>{{image.isPrivate ? 'lock':'lock_open'}}</mat-icon>             
+        <span class="bottom">Privacy</span>
     </button>
 </mat-card-content>
     

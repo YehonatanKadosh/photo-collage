@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { UserService } from 'src/app/Services/user-service.service';
 
 @Component({
@@ -60,10 +60,6 @@ export class PremissionsPageComponent implements OnInit {
     this.camera =
       (await navigator.permissions.query({ name: 'camera' })).state ===
       'granted';
-    this.privateMode = this.userService.user?.privateModePassword
-      ? true
-      : false;
-    this.privatePass.setValue(this.userService.user?.privateModePassword);
   }
   setPrivateMode = () => (this.privateMode = !this.privateMode);
   showPassword = () => (this.passHover = true);
@@ -71,6 +67,6 @@ export class PremissionsPageComponent implements OnInit {
 
   done = () => {
     if (this.privateMode && this.privatePass.valid)
-      this.userService.setPrivateMode(this.privatePass.value);
+      this.userService.setPassword(this.privatePass.value);
   };
 }

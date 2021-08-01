@@ -7,12 +7,12 @@
         <mat-icon *ngIf="!darkMode">light_mode</mat-icon>
         <span>Theme</span>
     </button>
-    <button mat-menu-item (click)="changePrivacy()">
+    <button mat-menu-item (click)="changePrivacy()" [disabled]="!user">
         <mat-icon *ngIf="isPrivate">lock</mat-icon>
         <mat-icon *ngIf="!isPrivate">lock_open</mat-icon>
         <span>Private</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item [disabled]="!user">
         <mat-icon>category</mat-icon>
         <span>Categories</span>
     </button>

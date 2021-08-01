@@ -9,39 +9,42 @@ const jsonFilePath = path.join(
 
 router.get("/", async (req, res, next) => {
   let jsonFile = await setJsonFileIfNotExist();
-  if (!jsonFile) res.send({});
-  else res.send(jsonFile);
+  if (!Object.keys(jsonFile).length) res.end();
+  else {
+    delete jsonFile.password;
+    res.send(jsonFile);
+  }
 });
 
-router.put("/setPassword", async (req, res, next) => {
+router.post("/setPassword", async (req, res, next) => {
   jsonFile = await setJsonFileIfNotExist();
-  jsonFile.privateModePassword = req.body.password;
+  jsonFile.password = req.body.password;
   await fs.writeFile(jsonFilePath, JSON.stringify(jsonFile));
-  res.end();
+  res.send(jsonFile);
 });
 
-router.put("/setPreferedTheme", async (req, res, next) => {
+router.post("/setPreferedTheme", async (req, res, next) => {
   jsonFile = await setJsonFileIfNotExist();
   jsonFile.preferedTheme = req.body.preferedTheme;
   await fs.writeFile(jsonFilePath, JSON.stringify(jsonFile));
-  res.end();
+  res.send(jsonFile);
 });
 
-router.put("/setExtraDetails", async (req, res, next) => {
+router.post("/setExtraDetails", async (req, res, next) => {
   jsonFile = await setJsonFileIfNotExist();
-  jsonFile.libraryName = req.body.libraryName;
+  if (req.body.libraryName) jsonFile.libraryName = req.body.libraryName;
   jsonFile.template = req.body.template;
   if (req.body.description) jsonFile.description = req.body.description;
   await fs.writeFile(jsonFilePath, JSON.stringify(jsonFile));
-  res.end();
+  res.send(jsonFile);
 });
 
-router.put("/setCategory", async (req, res, next) => {
+router.post("/setCategory", async (req, res, next) => {
   jsonFile = await setJsonFileIfNotExist();
   if (jsonFile.categories) jsonFile.categories.push(req.body.category);
   else jsonFile.categories = [req.body.category];
   await fs.writeFile(jsonFilePath, JSON.stringify(jsonFile));
-  res.end();
+  res.send(jsonFile);
 });
 
 const setJsonFileIfNotExist = async () => {

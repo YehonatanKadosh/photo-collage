@@ -1,7 +1,8 @@
+import { environment } from 'src/environments/environment';
 import { Category } from './Category';
 
 export class User {
-  privateModePassword: string;
+  password: string;
   libraryName: string;
   description: string;
   template: string;

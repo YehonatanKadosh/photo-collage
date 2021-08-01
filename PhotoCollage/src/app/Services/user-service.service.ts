@@ -1,38 +1,49 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Category } from 'src/Modules/Category';
 import { User } from 'src/Modules/User';
-
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  userExistsEventEmmiter: EventEmitter<User> = new EventEmitter<User>();
+  themeSwitch: EventEmitter<{ theme: string; token: number }> =
+    new EventEmitter<{ theme: string; token: number }>();
+
   user: User;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.getUser();
+
+    this.themeSwitch.subscribe((event) => {
+      if (event.token == 0) this.setpreferedTheme(event.theme);
+    });
+  }
 
   getUser = async (): Promise<User> => {
-    return new Promise(async (res, rej) => {
-      await this.http.get<any>(environment.User_API_URL).subscribe(
-        (user) => {
-          this.user = user;
-          res(user);
+    return new Promise((res, rej) => {
+      this.http.get<any>(environment.User_API_URL).subscribe(
+        (user: User) => {
+          if (user) {
+            this.user = user;
+            this.userExistsEventEmmiter.emit(user);
+          }
         },
         (error) => {}
       );
     });
   };
 
-  setPrivateMode = async (password: string) => {
-    return new Promise(async (res) => {
-      if (!this.user) this.user = new User();
-      this.user.privateModePassword = password;
-      await this.http
-        .put(environment.User_API_URL + '/setPassword', {
+  setPassword = async (password: string) => {
+    return new Promise((res) => {
+      this.http
+        .post(environment.User_API_URL + '/setPassword', {
           password: password,
         })
         .subscribe(
-          (data) => {},
+          (user: User) => {
+            this.user = user;
+          },
           (err) => {},
           () => res(true)
         );
@@ -40,46 +51,34 @@ export class UserService {
   };
 
   setpreferedTheme = async (preferedTheme: string) => {
-    return new Promise(async (res) => {
-      if (!this.user) this.user = new User();
-      this.user.preferedTheme = preferedTheme;
-      await this.http
-        .put(environment.User_API_URL + '/setPreferedTheme', {
+    return new Promise((res) => {
+      this.http
+        .post(environment.User_API_URL + '/setPreferedTheme', {
           preferedTheme: preferedTheme,
         })
         .subscribe(
-          (data) => {},
+          (user: User) => {
+            this.user = user;
+          },
           (err) => {},
           () => res(true)
         );
     });
   };
 
-  setLibraryNameDescriptionAndTempplate = async (
-    libraryName: string,
-    template: string,
-    description?: string
-  ) => {
-    return new Promise(async (res) => {
-      if (!this.user) this.user = new User();
-      this.user.libraryName = libraryName;
-      this.user.description = description ? description : '';
-      this.user.template = template;
-
-      let sendObj = description
-        ? {
-            libraryName: libraryName,
-            template: template,
-            description: description,
-          }
-        : {
-            libraryName: libraryName,
-            template: template,
-          };
-      await this.http
-        .put(environment.User_API_URL + '/setExtraDetails', sendObj)
+  setLibraryNameDescriptionAndTempplate = async (params: {
+    template: string;
+    libraryName?: string;
+    description?: string;
+  }) => {
+    return new Promise((res) => {
+      this.http
+        .post(environment.User_API_URL + '/setExtraDetails', params)
         .subscribe(
-          (data) => {},
+          (user: User) => {
+            this.user = user;
+            this.userExistsEventEmmiter.emit(user);
+          },
           (err) => {},
           () => res(true)
         );
@@ -87,26 +86,24 @@ export class UserService {
   };
 
   setNewCategory = async (category: Category) => {
-    return new Promise(async (res) => {
-      if (!this.user) this.user = new User();
-      if (this.user.categories) {
-        if (
-          !this.user.categories.find(
-            (c) => c.name.toLowerCase() == category.name.toLowerCase()
-          )
-        ) {
-          this.user.categories.push(category);
-        }
-      } else {
-        this.user.categories = [category];
+    return new Promise((res) => {
+      if (
+        !this.user.categories?.find(
+          (c) => c.name.toLowerCase() == category.name.toLowerCase()
+        )
+      ) {
+        this.http
+          .post(environment.User_API_URL + '/setCategory', {
+            category: category,
+          })
+          .subscribe(
+            (user: User) => {
+              this.user = user;
+            },
+            (err) => {},
+            () => res(true)
+          );
       }
-      await this.http
-        .put(environment.User_API_URL + '/setCategory', { category: category })
-        .subscribe(
-          (data) => {},
-          (err) => {},
-          () => res(true)
-        );
     });
   };
 }

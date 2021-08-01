@@ -36,7 +36,6 @@ export class PhotoGalleryComponent implements OnInit {
     );
     this.searching = false;
   };
-  getLibraryName = (): string => this.userService.user?.libraryName;
   getAllCategories = (): Category[] => this.userService.user?.categories;
   newCategoryClick = () => this._bottomSheet.open(NewCategoryComponent);
 }

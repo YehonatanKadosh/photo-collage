@@ -22,11 +22,11 @@ export class MoreDetailsComponent implements OnInit {
 
   done = () => {
     if (this.libraryName.valid && this.SelectedLayout.valid) {
-      this.userService.setLibraryNameDescriptionAndTempplate(
-        this.libraryName.value,
-        this.SelectedLayout.value,
-        this.description?.value
-      );
+      this.userService.setLibraryNameDescriptionAndTempplate({
+        libraryName: this.libraryName.value,
+        template: this.SelectedLayout.value,
+        description: this.description?.value,
+      });
     }
   };
   ngOnInit(): void {}

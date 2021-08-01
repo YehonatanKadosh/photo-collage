@@ -3,17 +3,17 @@
 </button>
 <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="templateChange()">
-        <mat-icon *ngIf="Template == 'Grid'">grid_view</mat-icon>
-        <mat-icon *ngIf="Template == 'List'">view_list</mat-icon>
+        <mat-icon *ngIf="user && user?.template == 'Grid' || Template">grid_view</mat-icon>
+        <mat-icon *ngIf="user && user?.template == 'List' || !Template">view_list</mat-icon>
         <span>{{Template}}</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item [disabled]="user">
         <mat-icon>slideshow</mat-icon>
-        <span>Random</span>
+        <span>Carousel</span>
     </button>
-    <button mat-menu-item>
-        <!-- <mat-icon></mat-icon> -->
-        <span>Import / Observe</span>
+    <button mat-menu-item [disabled]="user">
+        <mat-icon>file_upload</mat-icon> 
+        <span>Import</span>
     </button>
     <button mat-menu-item disabled>
         <mat-icon>share</mat-icon>

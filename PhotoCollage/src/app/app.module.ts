@@ -32,7 +32,10 @@ import { MapsComponent } from './components/popUps/maps/maps.component';
 //googleMaps
 import { AgmCoreModule } from '@agm/core';
 import { environment } from 'src/environments/environment';
-
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+//Lazy loading
+import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS } from 'ng-lazyload-image';
+import { LazyLoadImageHooks } from './Hooks/lazyLoadingObserver';
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,6 +59,7 @@ import { environment } from 'src/environments/environment';
     NewCategoryComponent,
     GridViewComponent,
     MapsComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     materials,
@@ -71,8 +75,9 @@ import { environment } from 'src/environments/environment';
     AgmCoreModule.forRoot({
       apiKey: environment.GOOGLE_MAPS_API_KEY, // Will be removed after Presentation
     }),
+    LazyLoadImageModule,
   ],
-  providers: [],
+  providers: [{ provide: LAZYLOAD_IMAGE_HOOKS, useClass: LazyLoadImageHooks }],
   bootstrap: [AppComponent],
   entryComponents: [],
 })
