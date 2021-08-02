@@ -11,7 +11,7 @@ export class LazyLoadImageHooks extends IntersectionObserverHooks {
     this.photoService.imageDeprecated.emit(parseInt(attributes.element.id));
   }
   setup(attributes: Attributes) {
-    attributes.defaultImagePath = '../../assets/no-image-placeholder.jpg';
+    attributes.defaultImagePath = 'assets/noImage.jpg';
     super.setup(attributes);
   }
 }

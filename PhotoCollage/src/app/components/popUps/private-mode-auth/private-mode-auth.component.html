@@ -1,0 +1,18 @@
+<div class="passContainer">
+    <button mat-mini-fab color="warn" (click)="close()">
+        <mat-icon matSuffix>arrow_back</mat-icon>
+    </button>
+    <mat-form-field>
+        <mat-label>Private password</mat-label>
+        <input matInput [formControl]="Password">
+        <mat-error *ngIf="Password.hasError('inCorrect') && !Password.hasError('required')">
+            Wrong password
+        </mat-error>
+        <mat-error *ngIf="Password.hasError('required')">
+            required field
+        </mat-error>
+    </mat-form-field>
+    <button mat-mini-fab color="primary" (click)="setPassword()">
+        <mat-icon matSuffix>arrow_forward</mat-icon>
+    </button>
+</div>

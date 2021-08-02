@@ -5,12 +5,12 @@
     <button mat-menu-item (click)="changeMode()">
         <mat-icon *ngIf="darkMode">dark_mode</mat-icon>
         <mat-icon *ngIf="!darkMode">light_mode</mat-icon>
-        <span>Theme</span>
+        <span>{{darkMode ? 'Dark mode' : 'Light mode'}}</span>
     </button>
     <button mat-menu-item (click)="changePrivacy()" [disabled]="!user">
         <mat-icon *ngIf="isPrivate">lock</mat-icon>
         <mat-icon *ngIf="!isPrivate">lock_open</mat-icon>
-        <span>Private</span>
+        <span>{{!isPrivate ? 'Private mode off': 'Private mode on'}}</span>
     </button>
     <button mat-menu-item [disabled]="!user">
         <mat-icon>category</mat-icon>

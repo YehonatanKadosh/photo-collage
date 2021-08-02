@@ -3,9 +3,9 @@
 </button>
 <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="templateChange()">
-        <mat-icon *ngIf="user && user?.template == 'Grid' || Template">grid_view</mat-icon>
-        <mat-icon *ngIf="user && user?.template == 'List' || !Template">view_list</mat-icon>
-        <span>{{Template}}</span>
+        <mat-icon *ngIf="!user">{{Template == 'Grid' ? 'grid_view' : 'view_list'}}</mat-icon>
+        <mat-icon *ngIf="user">{{user.template == 'Grid' ? 'grid_view' : 'view_list'}}</mat-icon>
+        <span>{{user?.template || Template }}</span>
     </button>
     <button mat-menu-item [disabled]="user">
         <mat-icon>slideshow</mat-icon>

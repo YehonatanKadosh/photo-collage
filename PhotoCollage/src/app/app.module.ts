@@ -29,6 +29,7 @@ import { CategoriesSelectionComponent } from './components/popUps/categories-sel
 import { NewCategoryComponent } from './components/popUps/new-category/new-category.component';
 import { GridViewComponent } from './components/grid-view/grid-view.component';
 import { MapsComponent } from './components/popUps/maps/maps.component';
+import { PrivateModeAuthComponent } from './components/popUps/private-mode-auth/private-mode-auth.component';
 //googleMaps
 import { AgmCoreModule } from '@agm/core';
 import { environment } from 'src/environments/environment';
@@ -36,6 +37,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 //Lazy loading
 import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS } from 'ng-lazyload-image';
 import { LazyLoadImageHooks } from './Hooks/lazyLoadingObserver';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,6 +62,7 @@ import { LazyLoadImageHooks } from './Hooks/lazyLoadingObserver';
     GridViewComponent,
     MapsComponent,
     PageNotFoundComponent,
+    PrivateModeAuthComponent,
   ],
   imports: [
     materials,

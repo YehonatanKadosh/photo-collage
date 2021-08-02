@@ -1,4 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { PrivateModeAuthComponent } from 'src/app/components/popUps/private-mode-auth/private-mode-auth.component';
+import { SiteStateService } from 'src/app/Services/site-state.service';
 import { UserService } from 'src/app/Services/user-service.service';
 import { environment } from 'src/environments/environment';
 import { User } from 'src/Modules/User';
@@ -13,22 +16,30 @@ export class CollageMenuComponent implements OnInit {
   darkMode: boolean;
   isPrivate: boolean;
 
-  constructor(private userService: UserService) {
-    this.userService.userExistsEventEmmiter.subscribe((user: User) => {
-      this.darkMode = user.preferedTheme === environment.DARK_MODE;
+  constructor(
+    private _bottomSheet: MatBottomSheet,
+    private siteState: SiteStateService
+  ) {
+    this.siteState.themeSwitch.subscribe((theme: string) => {
+      this.darkMode = theme === environment.DARK_MODE;
+    });
+    this.siteState.privacyAuthenticated.subscribe((auth: boolean) => {
+      this.isPrivate = auth;
     });
   }
   ngOnInit(): void {}
 
   changeMode = () => {
     this.darkMode = !this.darkMode;
-    this.userService.themeSwitch.emit({
+    this.siteState.themeSwitch.emit({
       theme: this.darkMode ? environment.DARK_MODE : environment.LIGHT_MODE,
       token: this.user ? 0 : 1,
     });
   };
 
   changePrivacy = () => {
-    this.isPrivate = !this.isPrivate;
+    if (!this.isPrivate) {
+      this._bottomSheet.open(PrivateModeAuthComponent);
+    } else this.siteState.privacyAuthenticated.emit(false);
   };
 }

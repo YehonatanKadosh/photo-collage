@@ -25,4 +25,6 @@ export class NewCategoryComponent implements OnInit {
       this._bottomSheetRef.dismiss();
     }
   };
+
+  close = () => this._bottomSheetRef.dismiss();
 }

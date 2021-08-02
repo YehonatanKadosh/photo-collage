@@ -11,9 +11,8 @@
     </button>
 </mat-card-content>
 
-<div class="main">
-    <img mat-card-image class="containerImage" *ngIf="!image.linkDeprecated" [src]="image.url"  >
-    <mat-card-content *ngIf="image.linkDeprecated">URL invalid or expired</mat-card-content>
+<div class="main" #photoContainer>
+    <img mat-card-image class="containerImage" [width]="photoContainer.scrollWidth" [height]="photoContainer.scrollHeight" [src]="!image.linkDeprecated ? image.url : 'assets/noImage.jpg'"  >
 </div>
 
 <mat-card-content>

@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { SiteStateService } from 'src/app/Services/site-state.service';
 import { UserService } from 'src/app/Services/user-service.service';
+import { environment } from 'src/environments/environment';
 import { User } from 'src/Modules/User';
 
 @Component({
@@ -9,20 +11,23 @@ import { User } from 'src/Modules/User';
 })
 export class UserComponent implements OnInit {
   @Input() user: User;
-  Template: string = 'Grid';
+  Template: string = environment.Template_GRID;
 
-  constructor(private userService: UserService) {
-    this.userService.userExistsEventEmmiter.subscribe((user: User) => {
-      this.Template = user.template;
+  constructor(
+    private userService: UserService,
+    private siteService: SiteStateService
+  ) {
+    this.siteService.changeTemplate.subscribe((newTemplate: string) => {
+      this.Template = newTemplate;
     });
   }
   ngOnInit(): void {}
 
   templateChange = () => {
-    if (this.user)
-      this.userService.setLibraryNameDescriptionAndTempplate({
-        template: this.user?.template === 'Grid' ? 'List' : 'Grid',
-      });
-    else this.Template = this.Template === 'Grid' ? 'List' : 'Grid';
+    this.siteService.changeTemplate.emit(
+      this.Template === environment.Template_GRID
+        ? environment.Template_LIST
+        : environment.Template_GRID
+    );
   };
 }

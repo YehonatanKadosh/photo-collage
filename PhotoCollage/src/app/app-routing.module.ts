@@ -42,6 +42,11 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
   },
   {
+    path: 'noPhoto',
+    component: PhotoGalleryComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
     path: '**',
     component: PageNotFoundComponent,
   },

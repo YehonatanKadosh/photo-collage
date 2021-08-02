@@ -2,6 +2,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { User } from 'src/Modules/User';
+import { SiteStateService } from '../Services/site-state.service';
 import { UserService } from '../Services/user-service.service';
 
 @Component({
@@ -13,14 +14,11 @@ export class AppComponent implements OnInit {
   @HostBinding('class') className: string = environment.LIGHT_MODE;
 
   constructor(
-    private userService: UserService,
-    private overlay: OverlayContainer
+    private overlay: OverlayContainer,
+    private siteState: SiteStateService
   ) {
-    this.userService.themeSwitch.subscribe((event) => {
+    this.siteState.themeSwitch.subscribe((event) => {
       this.setClassName(event.theme);
-    });
-    this.userService.userExistsEventEmmiter.subscribe((user: User) => {
-      if (user.preferedTheme) this.setClassName(user.preferedTheme);
     });
   }
   ngOnInit() {}

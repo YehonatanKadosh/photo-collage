@@ -1,20 +1,11 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  Output,
-  EventEmitter,
-  Inject,
-} from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Component, OnInit, Inject } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import {
   MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { PhotoService } from 'src/app/Services/photo-service.service';
-import { UserService } from 'src/app/Services/user-service.service';
-import { Category } from 'src/Modules/Category';
 import { Photo } from 'src/Modules/Photo';
 import { CategoriesSelectionComponent } from '../categories-selection/categories-selection.component';
 import { MapsComponent } from '../maps/maps.component';

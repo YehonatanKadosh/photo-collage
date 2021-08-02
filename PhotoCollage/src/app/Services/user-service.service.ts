@@ -1,24 +1,37 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Injectable, EventEmitter } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Category } from 'src/Modules/Category';
 import { User } from 'src/Modules/User';
+import { SiteStateService } from './site-state.service';
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   userExistsEventEmmiter: EventEmitter<User> = new EventEmitter<User>();
-  themeSwitch: EventEmitter<{ theme: string; token: number }> =
-    new EventEmitter<{ theme: string; token: number }>();
-
   user: User;
-  constructor(private http: HttpClient) {
+
+  constructor(private http: HttpClient, private siteState: SiteStateService) {
     this.getUser();
 
-    this.themeSwitch.subscribe((event) => {
+    this.siteState.themeSwitch.subscribe((event) => {
       if (event.token == 0) this.setpreferedTheme(event.theme);
     });
   }
+
+  checkIfPasswordValid = async (password: string): Promise<boolean> => {
+    return new Promise((res) => {
+      this.http
+        .get(environment.User_API_URL + '/validatePassword', {
+          params: new HttpParams().set('password', password),
+        })
+        .subscribe((authenticated: boolean) => {
+          res(authenticated);
+          this.siteState.privacyAuthenticated.emit(authenticated);
+        });
+    });
+  };
 
   getUser = async (): Promise<User> => {
     return new Promise((res, rej) => {
