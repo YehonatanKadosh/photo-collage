@@ -7,7 +7,7 @@
 </mat-card-title>
 <mat-dialog-content >
     <mat-selection-list #categories [(ngModel)]="selectedCategories" (ngModelChange)="categoriesSelectionChange($event)">
-        <mat-list-option [value]='category.name' *ngFor="let category of getAllCategories()">
+        <mat-list-option [value]='category.name' *ngFor="let category of categories">
             {{category.name}}
         </mat-list-option>
     </mat-selection-list>

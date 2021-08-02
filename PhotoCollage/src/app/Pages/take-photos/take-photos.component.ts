@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { Router } from '@angular/router';
 import { PhotoService } from '../../Services/photo-service.service';
 
 @Component({
@@ -10,16 +9,12 @@ import { PhotoService } from '../../Services/photo-service.service';
 })
 export class TakePhotosComponent implements OnInit {
   selectedTab: number = 0;
-  constructor(private photoService: PhotoService, private router: Router) {}
+  constructor(private photoService: PhotoService) {}
 
   ngOnInit(): void {}
 
   Done = async () => {
-    if (this.photoService.getAllPhotos().length == 0)
-      this.router.navigateByUrl('/PhotoGallery');
-    await this.photoService
-      .saveNewPhotos()
-      .then(() => this.router.navigateByUrl('/PhotoGallery'));
+    this.photoService.finishedUploading.emit();
   };
   tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
     this.selectedTab = tabChangeEvent.index;

@@ -1,22 +1,25 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Injectable, EventEmitter } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Category } from 'src/Modules/Category';
 import { User } from 'src/Modules/User';
 import { SiteStateService } from './site-state.service';
+
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  userExistsEventEmmiter: EventEmitter<User> = new EventEmitter<User>();
-  user: User;
-
-  constructor(private http: HttpClient, private siteState: SiteStateService) {
-    this.getUser();
-
-    this.siteState.themeSwitch.subscribe((event) => {
+  constructor(private http: HttpClient, private siteService: SiteStateService) {
+    this.siteService.themeSwitch.subscribe((event) => {
       if (event.token == 0) this.setpreferedTheme(event.theme);
+    });
+
+    this.siteService.changeTemplate.subscribe((event) => {
+      if (event.token == 0) {
+        this.setLibraryNameDescriptionAndTempplate({
+          template: event.template,
+        });
+      }
     });
   }
 
@@ -28,22 +31,7 @@ export class UserService {
         })
         .subscribe((authenticated: boolean) => {
           res(authenticated);
-          this.siteState.privacyAuthenticated.emit(authenticated);
         });
-    });
-  };
-
-  getUser = async (): Promise<User> => {
-    return new Promise((res, rej) => {
-      this.http.get<any>(environment.User_API_URL).subscribe(
-        (user: User) => {
-          if (user) {
-            this.user = user;
-            this.userExistsEventEmmiter.emit(user);
-          }
-        },
-        (error) => {}
-      );
     });
   };
 
@@ -55,7 +43,7 @@ export class UserService {
         })
         .subscribe(
           (user: User) => {
-            this.user = user;
+            this.siteService.userUpdated.emit(user);
           },
           (err) => {},
           () => res(true)
@@ -71,7 +59,7 @@ export class UserService {
         })
         .subscribe(
           (user: User) => {
-            this.user = user;
+            this.siteService.userUpdated.emit(user);
           },
           (err) => {},
           () => res(true)
@@ -89,8 +77,7 @@ export class UserService {
         .post(environment.User_API_URL + '/setExtraDetails', params)
         .subscribe(
           (user: User) => {
-            this.user = user;
-            this.userExistsEventEmmiter.emit(user);
+            this.siteService.userUpdated.emit(user);
           },
           (err) => {},
           () => res(true)
@@ -101,7 +88,7 @@ export class UserService {
   setNewCategory = async (category: Category) => {
     return new Promise((res) => {
       if (
-        !this.user.categories?.find(
+        !this.siteService.user.categories?.find(
           (c) => c.name.toLowerCase() == category.name.toLowerCase()
         )
       ) {
@@ -111,7 +98,7 @@ export class UserService {
           })
           .subscribe(
             (user: User) => {
-              this.user = user;
+              this.siteService.userUpdated.emit(user);
             },
             (err) => {},
             () => res(true)

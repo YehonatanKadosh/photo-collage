@@ -33,6 +33,11 @@ router.post("/addPhotos", async (req, res) => {
 
 router.get("/getPhotos", async (req, res) => {
   jsonFile = await setJsonFileIfNotExist();
+
+  if (req.query.isPrivate == "false") {
+    jsonFile = jsonFile.filter((photo) => photo.isPrivate == false);
+  }
+
   if (req.query.query || req.query.category) {
     if (req.query.query)
       jsonFile = jsonFile.filter((photo) =>

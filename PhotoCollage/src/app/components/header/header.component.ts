@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/Services/user-service.service';
+import { SiteStateService } from 'src/app/Services/site-state.service';
 import { User } from 'src/Modules/User';
 
 @Component({
@@ -9,8 +9,8 @@ import { User } from 'src/Modules/User';
 })
 export class HeaderComponent implements OnInit {
   user: User;
-  constructor(private userService: UserService) {
-    this.userService.userExistsEventEmmiter.subscribe((user: User) => {
+  constructor(private siteState: SiteStateService) {
+    this.siteState.userUpdated.subscribe((user: User) => {
       this.user = user;
     });
   }

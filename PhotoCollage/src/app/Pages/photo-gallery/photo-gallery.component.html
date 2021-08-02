@@ -8,7 +8,7 @@
     <mat-label>Search by category</mat-label>
     <mat-select [(value)] = "CategorySelection" (selectionChange)="getImages()">
       <mat-option>No Category</mat-option>
-      <mat-option *ngFor="let category of getAllCategories()" [value]="category.name">
+      <mat-option *ngFor="let category of categories" [value]="category.name">
         {{category.name}}
       </mat-option>
     </mat-select>

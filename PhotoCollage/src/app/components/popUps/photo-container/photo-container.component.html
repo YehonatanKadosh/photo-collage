@@ -11,8 +11,8 @@
     </button>
 </mat-card-content>
 
-<div class="main" #photoContainer>
-    <img mat-card-image class="containerImage" [width]="photoContainer.scrollWidth" [height]="photoContainer.scrollHeight" [src]="!image.linkDeprecated ? image.url : 'assets/noImage.jpg'"  >
+<div class="main">
+    <img mat-card-image class="containerImage" [src]="!image.linkDeprecated ? image.url : 'assets/noImage.jpg'"  >
 </div>
 
 <mat-card-content>

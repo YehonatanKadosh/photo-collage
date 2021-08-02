@@ -1,9 +1,7 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { User } from 'src/Modules/User';
 import { SiteStateService } from '../Services/site-state.service';
-import { UserService } from '../Services/user-service.service';
 
 @Component({
   selector: 'app-root',

@@ -7,7 +7,7 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { PhotoService } from 'src/app/Services/photo-service.service';
-import { UserService } from 'src/app/Services/user-service.service';
+import { SiteStateService } from 'src/app/Services/site-state.service';
 import { Category } from 'src/Modules/Category';
 import { Photo } from 'src/Modules/Photo';
 import { NewCategoryComponent } from '../new-category/new-category.component';
@@ -19,29 +19,30 @@ import { NewCategoryComponent } from '../new-category/new-category.component';
 })
 export class CategoriesSelectionComponent implements OnInit {
   selectedCategories: string[];
+  categories: Category[];
 
   constructor(
     private photoService: PhotoService,
-    private userService: UserService,
+    private siteState: SiteStateService,
     public dialog: MatDialog,
     private _bottomSheet: MatBottomSheet,
     public dialogRef: MatDialogRef<CategoriesSelectionComponent>,
     @Inject(MAT_DIALOG_DATA) public image: Photo
   ) {
     this.selectedCategories = this.image.categories?.map((c) => c.name);
+    this.siteState.userUpdated.subscribe((user) => {
+      this.categories = user.categories.sort((c1, c2) => {
+        let c1Includes = this.image.categories?.find((c) => c.name == c1.name)
+          ? true
+          : false;
+        let c2Includes = this.image.categories?.find((c) => c.name == c2.name)
+          ? true
+          : false;
+        return c1Includes === c2Includes ? 0 : c1Includes ? -1 : 1;
+      });
+    });
   }
   ngOnInit(): void {}
-
-  getAllCategories = (): Category[] =>
-    this.userService.user?.categories.sort((c1, c2) => {
-      let c1Includes = this.image.categories?.find((c) => c.name == c1.name)
-        ? true
-        : false;
-      let c2Includes = this.image.categories?.find((c) => c.name == c2.name)
-        ? true
-        : false;
-      return c1Includes === c2Includes ? 0 : c1Includes ? -1 : 1;
-    });
   newCategoryClick = () => this._bottomSheet.open(NewCategoryComponent);
   categoriesSelectionChange = async (categoriesNames) => {
     //save the categories

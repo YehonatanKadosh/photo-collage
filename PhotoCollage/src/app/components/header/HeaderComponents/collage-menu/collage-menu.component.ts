@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { PrivateModeAuthComponent } from 'src/app/components/popUps/private-mode-auth/private-mode-auth.component';
 import { SiteStateService } from 'src/app/Services/site-state.service';
-import { UserService } from 'src/app/Services/user-service.service';
 import { environment } from 'src/environments/environment';
 import { User } from 'src/Modules/User';
 
@@ -13,15 +12,15 @@ import { User } from 'src/Modules/User';
 })
 export class CollageMenuComponent implements OnInit {
   @Input() user: User;
-  darkMode: boolean;
-  isPrivate: boolean;
+  darkMode: boolean = false;
+  isPrivate: boolean = false;
 
   constructor(
     private _bottomSheet: MatBottomSheet,
     private siteState: SiteStateService
   ) {
-    this.siteState.themeSwitch.subscribe((theme: string) => {
-      this.darkMode = theme === environment.DARK_MODE;
+    this.siteState.themeSwitch.subscribe((event) => {
+      this.darkMode = event.theme === environment.DARK_MODE;
     });
     this.siteState.privacyAuthenticated.subscribe((auth: boolean) => {
       this.isPrivate = auth;
@@ -30,9 +29,8 @@ export class CollageMenuComponent implements OnInit {
   ngOnInit(): void {}
 
   changeMode = () => {
-    this.darkMode = !this.darkMode;
-    this.siteState.themeSwitch.emit({
-      theme: this.darkMode ? environment.DARK_MODE : environment.LIGHT_MODE,
+    this.siteState.themeSwitch.next({
+      theme: this.darkMode ? environment.LIGHT_MODE : environment.DARK_MODE,
       token: this.user ? 0 : 1,
     });
   };

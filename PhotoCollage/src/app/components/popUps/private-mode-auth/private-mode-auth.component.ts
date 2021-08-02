@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { SiteStateService } from 'src/app/Services/site-state.service';
 import { UserService } from 'src/app/Services/user-service.service';
 
 @Component({
@@ -19,6 +14,7 @@ export class PrivateModeAuthComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private siteState: SiteStateService,
     public _bottomSheetRef: MatBottomSheetRef<PrivateModeAuthComponent>
   ) {}
 
@@ -30,7 +26,10 @@ export class PrivateModeAuthComponent implements OnInit {
         this.Password.value
       );
       if (!correct) this.Password.setErrors({ inCorrect: true });
-      else this._bottomSheetRef.dismiss();
+      else {
+        this.siteState.privacyAuthenticated.emit(correct);
+        this._bottomSheetRef.dismiss();
+      }
     } else this.Password.markAsTouched();
   };
 
