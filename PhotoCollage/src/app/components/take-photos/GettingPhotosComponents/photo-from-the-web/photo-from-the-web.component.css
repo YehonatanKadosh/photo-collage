@@ -1,0 +1,16 @@
+.search_container {
+  margin-top: 2%;
+  min-width: 100vw;
+}
+
+.search,
+.amount {
+  height: 70px;
+  max-height: 70px;
+  font-size: 3.5em;
+}
+
+.searching-input,
+.searchButton {
+  margin: 2%;
+}

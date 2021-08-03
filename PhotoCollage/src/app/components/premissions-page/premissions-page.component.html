@@ -10,11 +10,10 @@
   allow private mode
   <mat-icon>{{privateMode ? 'lock':'lock_open'}}</mat-icon>
 </button><br />
-<mat-form-field appearance="fill">
+<mat-form-field *ngIf="privateMode" appearance="fill">
   <mat-label>Password</mat-label>
   <input matInput [type]="passHover ? 'text' : 'password'" [formControl]="privatePass" 
-  [attr.disabled]="!privateMode ? '' : null" (mouseenter) ="showPassword()"  
-  (mouseleave) ="hidePassword()">
+  (mouseenter) ="showPassword()" (mouseleave) ="hidePassword()">
 </mat-form-field><br />
 
 <button routerLink="/MoreDetails" class="btn btn-primary" (click)="done()">Next</button>

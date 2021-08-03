@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { SiteStateService } from 'src/app/Services/site-state.service';
 import { UserService } from 'src/app/Services/user-service.service';
 
 @Component({
@@ -16,7 +17,10 @@ export class PremissionsPageComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  constructor(private userService: UserService) {
+  constructor(
+    private userService: UserService,
+    private siteState: SiteStateService
+  ) {
     this.initPermissions();
   }
 
@@ -60,6 +64,7 @@ export class PremissionsPageComponent implements OnInit {
     this.camera =
       (await navigator.permissions.query({ name: 'camera' })).state ===
       'granted';
+    this.privateMode = this.siteState.user?.privateModeEnabled;
   }
   setPrivateMode = () => (this.privateMode = !this.privateMode);
   showPassword = () => (this.passHover = true);

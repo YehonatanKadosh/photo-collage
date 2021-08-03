@@ -4,9 +4,9 @@
   text-align-last: center;
   margin: 4px;
   padding: 12px;
-  box-shadow: 0px 0px 15px black !important;
+  box-shadow: 0px 0px 5px !important;
+  transition: 0.3s;
 }
-
 .Result .resultIcon {
   visibility: hidden;
   position: absolute;
@@ -16,10 +16,23 @@
 .Result:hover .resultIcon {
   visibility: visible;
 }
+.Result:hover {
+  box-shadow: 0px 0px 15px !important;
+}
 
 .infoIcon {
   left: calc(25% - 20px);
 }
 .trashIcon {
   right: calc(25% - 20px);
+}
+.addIcon {
+  right: calc(25% - 20px);
+}
+.mat-card {
+  text-align: center !important;
+}
+
+.mat-card-lg-image {
+  object-fit: contain;
 }

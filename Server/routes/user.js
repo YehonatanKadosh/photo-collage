@@ -21,9 +21,10 @@ router.get("/validatePassword", async (req, res, next) => {
   res.send(jsonFile.password && jsonFile.password === req.query.password);
 });
 
-router.post("/setPassword", async (req, res, next) => {
+router.post("/setprivateModePassword", async (req, res, next) => {
   jsonFile = await setJsonFileIfNotExist();
   jsonFile.password = req.body.password;
+  jsonFile.privateModeEnabled = true;
   await fs.writeFile(jsonFilePath, JSON.stringify(jsonFile));
   res.send(jsonFile);
 });

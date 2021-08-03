@@ -5,9 +5,9 @@
         <mat-icon matSuffix>add</mat-icon>
     </button>
 </mat-card-title>
-<mat-dialog-content >
+<mat-dialog-content *ngIf="allCategories.length > 0" >
     <mat-selection-list #categories [(ngModel)]="selectedCategories" (ngModelChange)="categoriesSelectionChange($event)">
-        <mat-list-option [value]='category.name' *ngFor="let category of categories">
+        <mat-list-option [value]='category.name' *ngFor="let category of allCategories">
             {{category.name}}
         </mat-list-option>
     </mat-selection-list>

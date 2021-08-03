@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { SiteStateService } from 'src/app/Services/site-state.service';
 import { environment } from 'src/environments/environment';
 import { User } from 'src/Modules/User';
@@ -12,7 +13,7 @@ export class UserComponent implements OnInit {
   @Input() user: User;
   Template: string = environment.Template_GRID;
 
-  constructor(private siteService: SiteStateService) {
+  constructor(private siteService: SiteStateService, private router: Router) {
     siteService.changeTemplate.subscribe((event) => {
       this.Template = event.template;
     });
@@ -28,4 +29,6 @@ export class UserComponent implements OnInit {
       token: this.user ? 0 : 1,
     });
   };
+
+  importClicked = () => this.router.navigateByUrl('/TakePhotos');
 }

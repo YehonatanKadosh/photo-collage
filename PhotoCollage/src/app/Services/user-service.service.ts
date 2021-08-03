@@ -38,7 +38,7 @@ export class UserService {
   setPassword = async (password: string) => {
     return new Promise((res) => {
       this.http
-        .post(environment.User_API_URL + '/setPassword', {
+        .post(environment.User_API_URL + '/setprivateModePassword', {
           password: password,
         })
         .subscribe(

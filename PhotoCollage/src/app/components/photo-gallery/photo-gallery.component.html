@@ -21,9 +21,8 @@
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div><br/>
   
-  <app-grid-view *ngIf="images && images.length>0 else NoImageFound" [images]="images"></app-grid-view>
+  <app-grid-view *ngIf="images && images.length > 0 else NoImageFound" (popPhotoContainer)="popPhotoContainer($event)" (deleteImage)="deleteImage($event)" [images]="images"></app-grid-view>
+    <ng-template #NoImageFound>
+      <h4 mat-subheader>No results</h4>
+    </ng-template>
 </mat-card>
-
-<ng-template #NoImageFound>
-    <h4 mat-subheader>No results</h4>
-</ng-template>

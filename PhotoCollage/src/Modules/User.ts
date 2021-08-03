@@ -8,4 +8,5 @@ export class User {
   template: string;
   categories: Category[];
   preferedTheme: string;
+  privateModeEnabled: boolean;
 }

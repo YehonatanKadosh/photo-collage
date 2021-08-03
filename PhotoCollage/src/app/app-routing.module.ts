@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { MoreDetailsComponent } from './Pages/more-details/more-details.component';
-import { PhotoGalleryComponent } from './Pages/photo-gallery/photo-gallery.component';
-import { PremissionsPageComponent } from './Pages/premissions-page/premissions-page.component';
-import { PhotoFromCameraComponent } from './Pages/take-photos/GettingPhotosComponents/photo-from-camera/photo-from-camera.component';
-import { PhotoFromLocalMachineComponent } from './Pages/take-photos/GettingPhotosComponents/photo-from-local-machine/photo-from-local-machine.component';
-import { PhotoFromTheWebComponent } from './Pages/take-photos/GettingPhotosComponents/photo-from-the-web/photo-from-the-web.component';
-import { TakePhotosComponent } from './Pages/take-photos/take-photos.component';
-import { WelcomePageComponent } from './Pages/welcome-page/welcome-page.component';
+import { MoreDetailsComponent } from './components/more-details/more-details.component';
+import { PhotoGalleryComponent } from './components/photo-gallery/photo-gallery.component';
+import { PremissionsPageComponent } from './components/premissions-page/premissions-page.component';
+import { PhotoFromCameraComponent } from './components/take-photos/GettingPhotosComponents/photo-from-camera/photo-from-camera.component';
+import { PhotoFromLocalMachineComponent } from './components/take-photos/GettingPhotosComponents/photo-from-local-machine/photo-from-local-machine.component';
+import { PhotoFromTheWebComponent } from './components/take-photos/GettingPhotosComponents/photo-from-the-web/photo-from-the-web.component';
+import { TakePhotosComponent } from './components/take-photos/take-photos.component';
+import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
 import { AuthGuardService } from './Services/auth-guard.service';
 
 const routes: Routes = [

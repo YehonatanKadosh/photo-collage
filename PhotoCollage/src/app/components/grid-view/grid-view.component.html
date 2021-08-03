@@ -1,9 +1,17 @@
 <mat-card *ngFor="let image of images" class="Result d-inline-block">
-    <img mat-card-lg-image [id]="image.id" [lazyLoad]="!image.linkDeprecated ? image.url : 'assets/noImage.jpg'">
-    <button mat-mini-fab color="primary" class="resultIcon infoIcon" (click)="popPhotoContainer(image)">
+    <p *ngIf="image.user">User: {{ image.user }}</p>
+    <img mat-card-lg-image [id]="image.id" [lazyLoad]="image.url?(!image.linkDeprecated ? image.url : 'assets/noImage.jpg'):image.webformatURL">
+    <p *ngIf="image.likes">Likes: {{ image.likes }}</p>
+
+    <!-- Gallery -->
+    <button mat-mini-fab *ngIf="image.url" color="primary" class="resultIcon infoIcon" (click)="popPhotoContainer.emit(image)">
         <mat-icon matSuffix >info</mat-icon>
     </button>
-    <button mat-mini-fab color="warn" class="resultIcon trashIcon"  (click)="deleteImage(image)">
+    <button mat-mini-fab *ngIf="image.url" color="warn"  class="resultIcon trashIcon"  (click)="deleteImage.emit(image)">
         <mat-icon matSuffix >delete</mat-icon>
+    </button>
+    <!-- webSearches -->
+    <button mat-mini-fab *ngIf="image.user" color=""  class="resultIcon addIcon" (click)="AddImage.emit(image)">
+        <mat-icon matSuffix >add</mat-icon>
     </button>
 </mat-card>

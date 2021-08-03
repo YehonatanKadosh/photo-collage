@@ -17,14 +17,8 @@
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div> 
 
-<ng-container *ngIf="(images && images.length > 0) else NoImageFound" >
-  <mat-card *ngFor="let image of images" (click)="AddImage(image)" class="Result d-inline-block">
-      <p>User: {{ image.user }}</p>
-    <img mat-card-lg-image [lazyLoad]="image.webformatURL">
-      <p>Likes: {{ image.likes }}</p>
-  </mat-card>
-</ng-container>
+<app-grid-view *ngIf="images && images.length > 0 else NoImageFound" (AddImage)="AddImage($event)" [images]="images"></app-grid-view>
 
 <ng-template #NoImageFound>
-  <h4>No results</h4>
+ <h4>No results</h4>
 </ng-template>

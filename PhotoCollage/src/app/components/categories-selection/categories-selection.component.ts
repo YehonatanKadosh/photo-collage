@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import {
   MatDialog,
@@ -19,7 +18,7 @@ import { NewCategoryComponent } from '../new-category/new-category.component';
 })
 export class CategoriesSelectionComponent implements OnInit {
   selectedCategories: string[];
-  categories: Category[];
+  allCategories: Category[];
 
   constructor(
     private photoService: PhotoService,
@@ -29,24 +28,31 @@ export class CategoriesSelectionComponent implements OnInit {
     public dialogRef: MatDialogRef<CategoriesSelectionComponent>,
     @Inject(MAT_DIALOG_DATA) public image: Photo
   ) {
-    this.selectedCategories = this.image.categories?.map((c) => c.name);
+    this.selectedCategories = image.categories?.map((i) => i.name) || [];
+    this.sortCategories(this.siteState.user.categories || []);
+
     this.siteState.userUpdated.subscribe((user) => {
-      this.categories = user.categories.sort((c1, c2) => {
-        let c1Includes = this.image.categories?.find((c) => c.name == c1.name)
-          ? true
-          : false;
-        let c2Includes = this.image.categories?.find((c) => c.name == c2.name)
-          ? true
-          : false;
-        return c1Includes === c2Includes ? 0 : c1Includes ? -1 : 1;
-      });
+      this.sortCategories(user.categories);
     });
   }
   ngOnInit(): void {}
   newCategoryClick = () => this._bottomSheet.open(NewCategoryComponent);
-  categoriesSelectionChange = async (categoriesNames) => {
+  categoriesSelectionChange = async (categoriesNames: string[]) => {
     //save the categories
     this.image.categories = categoriesNames.map((c) => new Category(c));
     await this.photoService.setCategories(this.image.id, this.image.categories);
+    this.selectedCategories = categoriesNames;
+    this.sortCategories(this.allCategories);
+  };
+  sortCategories = (categories: Category[]) => {
+    this.allCategories = categories.sort((c1, c2) => {
+      let c1Includes = this.image.categories?.find((c) => c.name == c1.name)
+        ? true
+        : false;
+      let c2Includes = this.image.categories?.find((c) => c.name == c2.name)
+        ? true
+        : false;
+      return c1Includes === c2Includes ? 0 : c1Includes ? -1 : 1;
+    });
   };
 }

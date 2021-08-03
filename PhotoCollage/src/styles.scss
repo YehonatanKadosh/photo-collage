@@ -42,10 +42,6 @@ $dark-mode: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
   @include custom-components-theme($dark-mode);
 }
 
-.body {
-  transition: 0.5s;
-}
-
 :root {
   --animation-time: 0.5s;
   --TogglericonFontSize: 1em;

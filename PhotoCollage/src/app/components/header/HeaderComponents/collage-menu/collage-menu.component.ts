@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { PrivateModeAuthComponent } from 'src/app/components/popUps/private-mode-auth/private-mode-auth.component';
+import { MatDialog } from '@angular/material/dialog';
+import { PrivateModeAuthComponent } from 'src/app/components/private-mode-auth/private-mode-auth.component';
+import { NoPrivateModeConfiguredComponent } from 'src/app/components/no-private-mode-configured/no-private-mode-configured.component';
 import { SiteStateService } from 'src/app/Services/site-state.service';
 import { environment } from 'src/environments/environment';
 import { User } from 'src/Modules/User';
@@ -17,7 +19,8 @@ export class CollageMenuComponent implements OnInit {
 
   constructor(
     private _bottomSheet: MatBottomSheet,
-    private siteState: SiteStateService
+    private siteState: SiteStateService,
+    public dialog: MatDialog
   ) {
     this.siteState.themeSwitch.subscribe((event) => {
       this.darkMode = event.theme === environment.DARK_MODE;
@@ -37,7 +40,9 @@ export class CollageMenuComponent implements OnInit {
 
   changePrivacy = () => {
     if (!this.isPrivate) {
-      this._bottomSheet.open(PrivateModeAuthComponent);
+      if (this.siteState.user.privateModeEnabled)
+        this._bottomSheet.open(PrivateModeAuthComponent);
+      else this.dialog.open(NoPrivateModeConfiguredComponent);
     } else this.siteState.privacyAuthenticated.emit(false);
   };
 }

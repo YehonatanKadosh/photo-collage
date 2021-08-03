@@ -1,0 +1,20 @@
+.photosBar {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
+  width: fit-content;
+  align-items: center;
+  max-width: calc(99% - 64.25px);
+  min-height: calc(15vh + 26px);
+  display: flex;
+}
+
+.DoneBtn {
+  position: absolute;
+  left: 100.5%;
+}
+
+.photoBarComponent {
+  max-width: 100%;
+}
