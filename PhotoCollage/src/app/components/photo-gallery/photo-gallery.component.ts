@@ -39,9 +39,6 @@ export class PhotoGalleryComponent implements OnInit {
     this.siteState.privacyAuthenticated.subscribe((auth) => {
       this.getImages();
     });
-    this.photoService.imageDeprecated.subscribe((id: number) => {
-      this.images.find((i) => i.id == id).linkDeprecated = true;
-    });
     this.siteState.newTemplate.subscribe((templateEvent) => {
       this.template = templateEvent.template;
     });
@@ -67,9 +64,10 @@ export class PhotoGalleryComponent implements OnInit {
     });
   };
 
-  deleteImage = (image: Photo) => {
-    this.photoService.deletePhoto(image.id);
-    let imageLocation = this.images.indexOf(image);
-    this.images.splice(imageLocation, 1);
+  deleteImage = async (image: Photo) => {
+    await this.photoService.deletePhoto(image.id).then((done) => {
+      let imageLocation = this.images.indexOf(image);
+      this.images.splice(imageLocation, 1);
+    });
   };
 }

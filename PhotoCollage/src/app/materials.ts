@@ -12,6 +12,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   exports: [
@@ -28,6 +29,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
     MatMenuModule,
     MatDialogModule,
     MatBottomSheetModule,
+    MatGridListModule,
   ],
 })
 export class materials {}

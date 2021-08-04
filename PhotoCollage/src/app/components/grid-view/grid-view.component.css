@@ -1,11 +1,7 @@
 .Result {
-  width: fit-content;
-  height: fit-content;
-  text-align-last: center;
-  margin: 4px;
-  padding: 5px;
   box-shadow: 0px 0px 5px !important;
   transition: 0.3s;
+  border-radius: 4px;
 }
 .Result .resultIcon {
   visibility: hidden;
@@ -35,4 +31,8 @@
 
 .mat-card-lg-image {
   object-fit: contain;
+}
+
+.resultImage {
+  border-radius: inherit;
 }

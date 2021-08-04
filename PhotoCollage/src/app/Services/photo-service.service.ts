@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Attribute, EventEmitter, Injectable, NgZone } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Photo } from 'src/Modules/Photo';
 import { environment } from 'src/environments/environment';
 import { Category } from 'src/Modules/Category';
@@ -11,19 +11,11 @@ import { SiteStateService } from './site-state.service';
 export class PhotoService {
   finishedUploading: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private http: HttpClient, private siteState: SiteStateService) {
-    this.imageDeprecated.subscribe((imageId) => {
-      this.http
-        .put(environment.Photos_API_URl + '/setDeprecated', {
-          id: imageId,
-        })
-        .subscribe();
-    });
-  }
+  constructor(private http: HttpClient, private siteState: SiteStateService) {}
 
   saveNewPhotos = async (photos: Photo[]) => {
     return new Promise(async (res, rej) => {
-      await this.http
+      this.http
         .post<any>(environment.Photos_API_URl + '/addPhotos', photos)
         .subscribe(
           (next) => {},
@@ -62,96 +54,120 @@ export class PhotoService {
                 ),
               }
         )
-        .subscribe((data: Photo[]) => {
-          resolve(data);
-        });
+        .subscribe(
+          (data: Photo[]) => {
+            resolve(data);
+          },
+          (err) => {},
+          () => {}
+        );
     });
   };
 
-  setFavorite = async (imageId: number, favorite: boolean) => {
+  setFavorite = async (imageId: number, favorite: boolean): Promise<Photo> => {
     return new Promise(async (res, rej) => {
-      await this.http
-        .put(environment.Photos_API_URl + '/setFavorite', {
+      this.http
+        .post(environment.Photos_API_URl + '/setFavorite', {
           id: imageId,
           favorite: favorite,
         })
         .subscribe(
-          (next) => {},
-          (error) => {},
-          () => res(true)
+          (photo: Photo) => {
+            res(photo);
+          },
+          (err) => {},
+          () => {}
         );
     });
   };
 
-  setPrivate = async (imageId: number, isPrivate: boolean) => {
+  setPrivate = async (imageId: number, isPrivate: boolean): Promise<Photo> => {
     return new Promise(async (res, rej) => {
-      await this.http
-        .put(environment.Photos_API_URl + '/setPrivate', {
+      this.http
+        .post(environment.Photos_API_URl + '/setPrivate', {
           id: imageId,
           isPrivate: isPrivate,
         })
         .subscribe(
-          (next) => {},
-          (error) => {},
-          () => res(true)
+          (photo: Photo) => {
+            res(photo);
+          },
+          (err) => {},
+          () => {}
         );
     });
   };
 
-  setCategory = async (imageId: number, category: Category) => {
+  setCategories = async (
+    imageId: number,
+    categories: Category[]
+  ): Promise<Photo> => {
     return new Promise(async (res, rej) => {
-      await this.http
-        .put(environment.Photos_API_URl + '/setCategory', {
-          id: imageId,
-          category: category,
-        })
-        .subscribe(
-          (next) => {},
-          (error) => {},
-          () => res(true)
-        );
-    });
-  };
-
-  setCategories = async (imageId: number, categories: Category[]) => {
-    return new Promise(async (res, rej) => {
-      await this.http
-        .put(environment.Photos_API_URl + '/setCategories', {
+      this.http
+        .post(environment.Photos_API_URl + '/setCategories', {
           id: imageId,
           categories: categories,
         })
         .subscribe(
-          (next) => {},
-          (error) => {},
-          () => res(true)
+          (photo: Photo) => {
+            res(photo);
+          },
+          (err) => {},
+          () => {}
         );
     });
   };
 
-  setName = async (imageId: number, name: string) => {
+  setName = async (imageId: number, name: string): Promise<Photo> => {
     return new Promise(async (res, rej) => {
-      await this.http
-        .put(environment.Photos_API_URl + '/setName', {
+      this.http
+        .post(environment.Photos_API_URl + '/setName', {
           id: imageId,
           name: name,
         })
         .subscribe(
-          (next) => {},
-          (error) => {},
-          () => res(true)
+          (photo: Photo) => {
+            res(photo);
+          },
+          (err) => {},
+          () => {}
         );
     });
   };
 
-  deletePhoto = (imageId: number) => {
-    this.http
-      .post(environment.Photos_API_URl + '/removeImage', {
-        id: imageId,
-      })
-      .subscribe();
+  deletePhoto = async (imageId: number): Promise<boolean> => {
+    return new Promise((res) => {
+      this.http
+        .post(environment.Photos_API_URl + '/removeImage', {
+          id: imageId,
+        })
+        .subscribe(
+          (next) => {},
+          (err) => {},
+          () => {
+            res(true);
+          } // Deleted
+        );
+    });
   };
 
-  imageDeprecated: EventEmitter<number> = new EventEmitter<number>();
+  Deprecated = async (imageId: number): Promise<Photo> => {
+    return new Promise((res) => {
+      this.http
+        .post(environment.Photos_API_URl + '/setDeprecated', {
+          id: imageId,
+        })
+        .subscribe(
+          (photo: Photo) => {
+            res(photo);
+          },
+          (err) => {},
+          () => {}
+        );
+    });
+  };
+
+  // upload
   getNewUrl: EventEmitter<string> = new EventEmitter<string>();
   getNewPhoto: EventEmitter<Photo> = new EventEmitter<Photo>();
   getNewFiles: EventEmitter<File[]> = new EventEmitter<File[]>();

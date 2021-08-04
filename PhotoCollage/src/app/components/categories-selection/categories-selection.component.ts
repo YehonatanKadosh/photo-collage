@@ -40,11 +40,16 @@ export class CategoriesSelectionComponent implements OnInit {
   ngOnInit(): void {}
   newCategoryClick = () => this._bottomSheet.open(NewCategoryComponent);
   categoriesSelectionChange = async (categoriesNames: string[]) => {
-    //save the categories
-    this.image.categories = categoriesNames.map((c) => new Category(c));
-    await this.photoService.setCategories(this.image.id, this.image.categories);
-    this.selectedCategories = categoriesNames;
-    this.sortCategories(this.allCategories);
+    await this.photoService
+      .setCategories(
+        this.image.id,
+        categoriesNames.map((c) => new Category(c))
+      )
+      .then((photo: Photo) => {
+        this.selectedCategories = categoriesNames;
+        this.image.categories = photo.categories;
+        this.sortCategories(photo.categories);
+      });
   };
   sortCategories = (categories: Category[]) => {
     this.allCategories = categories.sort((c1, c2) => {

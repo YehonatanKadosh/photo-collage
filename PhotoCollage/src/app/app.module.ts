@@ -40,7 +40,8 @@ import { LazyLoadImageHooks } from './Hooks/lazyLoadingObserver';
 import { NoPrivateModeConfiguredComponent } from './components/no-private-mode-configured/no-private-mode-configured.component';
 import { PhotoFromWebContainerComponent } from './components/photo-from-web-container/photo-from-web-container.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
-import { UserService } from './Services/user-service.service';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { CarouselComponent } from './components/carousel/carousel.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { UserService } from './Services/user-service.service';
     NoPrivateModeConfiguredComponent,
     PhotoFromWebContainerComponent,
     ListViewComponent,
+    CarouselComponent,
   ],
   imports: [
     materials,
@@ -86,11 +88,9 @@ import { UserService } from './Services/user-service.service';
       apiKey: environment.GOOGLE_MAPS_API_KEY, // Will be removed after Presentation
     }),
     LazyLoadImageModule,
+    CarouselModule.forRoot(),
   ],
-  providers: [
-    { provide: LAZYLOAD_IMAGE_HOOKS, useClass: LazyLoadImageHooks },
-    UserService,
-  ],
+  providers: [{ provide: LAZYLOAD_IMAGE_HOOKS, useClass: LazyLoadImageHooks }],
   bootstrap: [AppComponent],
   entryComponents: [],
 })

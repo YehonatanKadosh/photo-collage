@@ -5,14 +5,15 @@
   z-index: 3;
   width: fit-content;
   align-items: center;
-  max-width: calc(99% - 64.25px);
+  max-width: calc(98% - 64.25px);
   min-height: calc(15vh + 26px);
   display: flex;
 }
 
 .DoneBtn {
-  position: absolute;
-  left: calc(99.5vw - 64.25px);
+  position: fixed;
+  right: 2vh;
+  bottom: 7.5vh;
 }
 
 .photoBarComponent {

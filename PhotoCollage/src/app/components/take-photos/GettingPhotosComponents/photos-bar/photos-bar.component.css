@@ -19,8 +19,12 @@
   float: left;
 }
 
-.PhotoBarContainer:hover {
+.image {
+  transition: 0.3s;
+}
+.image:hover {
   box-shadow: 0px 0px 15px !important;
+  margin: 0px 7.5px;
 }
 
 .imageContainer {

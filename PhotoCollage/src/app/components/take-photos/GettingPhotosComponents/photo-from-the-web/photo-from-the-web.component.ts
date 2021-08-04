@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PhotoFromWebContainerComponent } from 'src/app/components/photo-from-web-container/photo-from-web-container.component';
 import { SiteStateService } from 'src/app/Services/site-state.service';
+import { UserService } from 'src/app/Services/user-service.service';
 import { Photo } from 'src/Modules/Photo';
 import { PhotoService } from '../../../../Services/photo-service.service';
 import { WebPhotoService } from '../../../../Services/web-photo-service.service';
@@ -22,9 +23,11 @@ export class PhotoFromTheWebComponent {
   constructor(
     private imageService: WebPhotoService,
     private siteState: SiteStateService,
+    private userSevice: UserService,
     private photoService: PhotoService,
     public dialog: MatDialog
   ) {
+    this.template = this.userSevice.user?.template; // ? only for debugging
     this.siteState.newTemplate.subscribe((templateEvent) => {
       this.template = templateEvent.template;
     });

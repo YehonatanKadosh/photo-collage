@@ -1,5 +1,5 @@
 <div class="PhotoBarContainer" *ngIf="Photos.length > 0">
-    <mat-card class="Header image" *ngFor="let image of Photos.slice().reverse()">
+    <mat-card class="image" *ngFor="let image of Photos.slice().reverse()">
         <div class="privateContainer">
             {{image.isPrivate? 'private' : 'public'}}
             <app-toggler [initialState]="image.isPrivate" (StateChanged)="setIsPrivae($event, image)"></app-toggler>

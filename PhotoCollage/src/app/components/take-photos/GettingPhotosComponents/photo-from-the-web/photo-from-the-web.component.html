@@ -8,9 +8,9 @@
     name="amount" placeholder="Amount of results">
     <mat-hint>default is 10</mat-hint>
   </mat-form-field>
-  <br>
+  <br />
   <button (click)="searchImages(searchQuery, amountOfResults)"
-  mat-flat-button color="primary" class="searchButton">Find Images</button>
+  mat-flat-button color="primary" class="searchButton">Find Images</button><br />
   
   <div *ngIf="searching">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>

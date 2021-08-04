@@ -1,16 +1,18 @@
-<mat-card *ngFor="let image of images" class="Result Header d-inline-block">
-    <img mat-card-lg-image [id]="image.id" [lazyLoad]="image.url?(!image.linkDeprecated ? image.url : 'assets/noImage.jpg'):image.webformatURL">
-
-    <!-- Gallery -->
-    <button mat-mini-fab *ngIf="deleteImage.observers.length" color="warn"  class="resultIcon trashIcon"  (click)="deleteImage.emit(image)">
-        <mat-icon matSuffix >delete</mat-icon>
-    </button>
-    <!-- webSearches -->
-    <button mat-mini-fab *ngIf="AddImage.observers.length" color="primary"  class="resultIcon addIcon" (click)="AddImage.emit(image)">
-        <mat-icon matSuffix >add</mat-icon>
-    </button>
-    <!-- Both -->
-    <button mat-mini-fab *ngIf="popPhotoContainer.observers.length" color="primary" class="resultIcon infoIcon" (click)="popPhotoContainer.emit(image)">
-        <mat-icon matSuffix >info</mat-icon>
-    </button>
-</mat-card>
+<mat-grid-list #Grid>
+    <mat-grid-tile class="Result" *ngFor="let image of images">
+            <img mat-card-lg-image class="resultImage" [id]="image.id" [lazyLoad]="image.url?(!image.linkDeprecated ? image.url : 'assets/noImage.jpg'):image.webformatURL">
+            
+            <!-- Gallery -->
+            <button mat-mini-fab *ngIf="deleteImage.observers.length" color=""  class="resultIcon trashIcon"  (click)="deleteImage.emit(image)">
+                <mat-icon matSuffix color="warn">delete</mat-icon>
+            </button>
+            <!-- webSearches -->
+            <button mat-mini-fab *ngIf="AddImage.observers.length" color=""  class="resultIcon addIcon" (click)="AddImage.emit(image)">
+                <mat-icon matSuffix color="primary">add</mat-icon>
+            </button>
+            <!-- Both -->
+            <button mat-mini-fab *ngIf="popPhotoContainer.observers.length" color="" class="resultIcon infoIcon" (click)="popPhotoContainer.emit(image)">
+                <mat-icon matSuffix color="primary">info</mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>

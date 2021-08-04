@@ -6,7 +6,7 @@
         <mat-icon>{{Template == 'Grid' ? 'grid_view' : 'view_list'}}</mat-icon>
         <span>{{ Template }}</span>
     </button>
-    <button mat-menu-item [disabled]="!user">
+    <button mat-menu-item [disabled]="!user" (click)="caruselClicked()">
         <mat-icon>slideshow</mat-icon>
         <span>Carousel</span>
     </button>
@@ -23,4 +23,3 @@
         <span>Sync</span>
     </button>
 </mat-menu>
-<!-- <God></God> -->

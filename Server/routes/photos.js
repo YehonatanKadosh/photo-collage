@@ -54,64 +54,57 @@ router.get("/getPhotos", async (req, res) => {
   else res.send(jsonFile);
 });
 
-router.put("/setFavorite", async (req, res) => {
+router.post("/setFavorite", async (req, res) => {
   jsonFile = await setJsonFileIfNotExist();
   if (jsonFile.length) {
-    jsonFile.find((photo) => photo.id == req.body.id).favorite =
-      req.body.favorite;
+    let designatedPhoto = jsonFile.find((photo) => photo.id == req.body.id);
+    designatedPhoto.favorite = req.body.favorite;
     await fs.writeFile(jsonFilePath, JSON.stringify(jsonFile));
+    res.send(designatedPhoto);
   }
   res.end();
 });
 
-router.put("/setPrivate", async (req, res) => {
+router.post("/setPrivate", async (req, res) => {
   jsonFile = await setJsonFileIfNotExist();
   if (jsonFile.length) {
-    jsonFile.find((photo) => photo.id == req.body.id).isPrivate =
-      req.body.isPrivate;
+    let designatedPhoto = jsonFile.find((photo) => photo.id == req.body.id);
+    designatedPhoto.isPrivate = req.body.isPrivate;
     await fs.writeFile(jsonFilePath, JSON.stringify(jsonFile));
+    res.send(designatedPhoto);
   }
   res.end();
 });
 
-router.put("/setCategory", async (req, res) => {
+router.post("/setCategories", async (req, res) => {
   jsonFile = await setJsonFileIfNotExist();
   if (jsonFile.length) {
-    let selectedPhoto = jsonFile.find((photo) => photo.id == req.body.id);
-    if (selectedPhoto.categories)
-      selectedPhoto.categories.push(req.body.category);
-    else {
-      selectedPhoto.categories = [req.body.category];
-    }
+    let designatedPhoto = jsonFile.find((photo) => photo.id == req.body.id);
+    designatedPhoto.categories = req.body.categories;
     await fs.writeFile(jsonFilePath, JSON.stringify(jsonFile));
+    res.send(designatedPhoto);
   }
   res.end();
 });
 
-router.put("/setCategories", async (req, res) => {
+router.post("/setName", async (req, res) => {
   jsonFile = await setJsonFileIfNotExist();
   if (jsonFile.length) {
-    let selectedPhoto = jsonFile.find((photo) => photo.id == req.body.id);
-    selectedPhoto.categories = req.body.categories;
+    let designatedPhoto = jsonFile.find((photo) => photo.id == req.body.id);
+    designatedPhoto.caption = req.body.name;
     await fs.writeFile(jsonFilePath, JSON.stringify(jsonFile));
+    res.send(designatedPhoto);
   }
   res.end();
 });
 
-router.put("/setName", async (req, res) => {
+router.post("/setDeprecated", async (req, res) => {
   jsonFile = await setJsonFileIfNotExist();
   if (jsonFile.length) {
-    jsonFile.find((photo) => photo.id == req.body.id).caption = req.body.name;
+    let designatedPhoto = jsonFile.find((photo) => photo.id == req.body.id);
+    designatedPhoto.linkDeprecated = true;
     await fs.writeFile(jsonFilePath, JSON.stringify(jsonFile));
-  }
-  res.end();
-});
-
-router.put("/setDeprecated", async (req, res) => {
-  jsonFile = await setJsonFileIfNotExist();
-  if (jsonFile.length) {
-    jsonFile.find((photo) => photo.id == req.body.id).linkDeprecated = true;
-    await fs.writeFile(jsonFilePath, JSON.stringify(jsonFile));
+    res.send(designatedPhoto);
   }
   res.end();
 });

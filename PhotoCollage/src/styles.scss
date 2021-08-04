@@ -70,8 +70,14 @@ $dark-mode: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
   overflow: hidden !important;
 }
 
-.mat-list .mat-list-item-content {
-  border-radius: 10px;
-  justify-content: space-evenly;
-  @extend .Header;
-}
+// .mat-list .mat-list-item-content {
+//   border-radius: 10px;
+//   justify-content: space-evenly;
+//   // @extend .Header;
+// }
+
+/* Importing Bootstrap SCSS file. */
+@import "~bootstrap/scss/bootstrap";
+
+/* Importing Datepicker SCSS file. */
+@import "~ngx-bootstrap/datepicker/bs-datepicker";

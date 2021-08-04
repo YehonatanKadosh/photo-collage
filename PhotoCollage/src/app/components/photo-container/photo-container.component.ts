@@ -18,7 +18,6 @@ import { MapsComponent } from '../maps/maps.component';
 export class PhotoContainerComponent implements OnInit {
   saving: boolean;
   newPhotoName = new FormControl('');
-  oldName: string;
 
   constructor(
     private photoService: PhotoService,
@@ -32,17 +31,21 @@ export class PhotoContainerComponent implements OnInit {
   close = () => this.dialogRef.close();
 
   favoriteChanged = async () => {
-    this.image.favorite = !this.image.favorite;
     await this.photoService
-      .setFavorite(this.image.id, this.image.favorite)
-      .then(() => this.setSaving());
+      .setFavorite(this.image.id, !this.image.favorite)
+      .then((photo: Photo) => {
+        this.image.favorite = photo.favorite;
+        this.setSaving();
+      });
   };
 
   isPrivateChanged = async () => {
-    this.image.isPrivate = !this.image.isPrivate;
     await this.photoService
-      .setPrivate(this.image.id, this.image.isPrivate)
-      .then(() => this.setSaving());
+      .setPrivate(this.image.id, !this.image.isPrivate)
+      .then((photo: Photo) => {
+        this.image.isPrivate = photo.isPrivate;
+        this.setSaving();
+      });
   };
 
   addCategoryClick = () => {
@@ -54,28 +57,34 @@ export class PhotoContainerComponent implements OnInit {
   };
 
   nameChanged = async () => {
+    let oldName = this.image.caption;
     if (this.newPhotoName.value) {
-      this.oldName = this.image.caption;
       let fileType = /(?:\.([^.]+))?$/.exec(this.image.caption)[1];
       let newName = fileType
         ? this.newPhotoName.value + '.' + fileType
         : this.newPhotoName.value;
       await this.photoService
         .setName(this.image.id, newName)
-        .then(() => this.setSaving());
-      this.image.caption = newName;
+        .then((photo: Photo) => {
+          this.image.caption = photo.caption;
+          this.setSaving();
+        });
     } else {
-      this.image.caption = this.oldName;
       await this.photoService
-        .setName(this.image.id, this.oldName)
-        .then(() => this.setSaving());
+        .setName(this.image.id, oldName)
+        .then((photo: Photo) => {
+          this.image.caption = photo.caption;
+          this.setSaving();
+        });
     }
   };
 
   openMap = () => {
     this.dialog.open(MapsComponent, {
-      maxWidth: 'calc(75vh + 48px)',
-      maxHeight: 'calc(75vh + 48px)',
+      maxWidth: 'calc(75% + 48px)',
+      maxHeight: 'calc(75% + 48px)',
+      width: '100%',
+      height: '100%',
       data: { longitude: this.image.longitude, latitude: this.image.latitude },
     });
   };

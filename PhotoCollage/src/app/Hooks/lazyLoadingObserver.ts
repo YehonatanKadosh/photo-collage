@@ -8,10 +8,6 @@ export class LazyLoadImageHooks extends IntersectionObserverHooks {
     super();
   }
   setErrorImage(error: Error, attributes: Attributes): void {
-    this.photoService.imageDeprecated.emit(parseInt(attributes.element.id));
-  }
-  setup(attributes: Attributes) {
-    attributes.defaultImagePath = 'assets/noImage.jpg';
-    super.setup(attributes);
+    this.photoService.Deprecated(parseInt(attributes.element.id));
   }
 }
