@@ -12,7 +12,7 @@
 
 .DoneBtn {
   position: absolute;
-  left: 100.5%;
+  left: calc(99.5vw - 64.25px);
 }
 
 .photoBarComponent {

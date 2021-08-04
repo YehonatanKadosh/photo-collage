@@ -20,8 +20,10 @@
   <div *ngIf="searching">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div><br/>
-  
-  <app-grid-view *ngIf="images && images.length > 0 else NoImageFound" (popPhotoContainer)="popPhotoContainer($event)" (deleteImage)="deleteImage($event)" [images]="images"></app-grid-view>
+  <ng-container *ngIf="images && images.length > 0 else NoImageFound">
+    <app-list-view *ngIf="template === 'List'" (popPhotoContainer)="popPhotoContainer($event)" (deleteImage)="deleteImage($event)" [images]="images"></app-list-view>
+    <app-grid-view *ngIf="template === 'Grid'" (popPhotoContainer)="popPhotoContainer($event)" (deleteImage)="deleteImage($event)" [images]="images"></app-grid-view>
+  </ng-container>
     <ng-template #NoImageFound>
       <h4 mat-subheader>No results</h4>
     </ng-template>

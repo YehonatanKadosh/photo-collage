@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { NewCategoryComponent } from 'src/app/components/new-category/new-category.component';
 import { PhotoService } from 'src/app/Services/photo-service.service';
 import { SiteStateService } from 'src/app/Services/site-state.service';
+import { UserService } from 'src/app/Services/user-service.service';
 import { Category } from 'src/Modules/Category';
 import { Photo } from 'src/Modules/Photo';
 import { PhotoContainerComponent } from '../photo-container/photo-container.component';
@@ -19,24 +20,30 @@ export class PhotoGalleryComponent implements OnInit {
   searchQuery: string;
   CategorySelection: string;
   categories: Category[];
+  template: string;
 
   constructor(
     private photoService: PhotoService,
     public dialog: MatDialog,
     private _bottomSheet: MatBottomSheet,
-    private siteState: SiteStateService
+    private siteState: SiteStateService,
+    private userService: UserService
   ) {
     this.getImages();
-    this.categories = this.siteState.user?.categories || []; // ? only in development
+    this.categories = this.userService.user?.categories || []; // ? only in development
+    this.template = this.userService.user?.template;
 
-    this.siteState.userUpdated.subscribe((user) => {
-      this.categories = user.categories;
+    this.siteState.categoriesUpdate.subscribe((categories: Category[]) => {
+      this.categories = categories;
     });
     this.siteState.privacyAuthenticated.subscribe((auth) => {
       this.getImages();
     });
     this.photoService.imageDeprecated.subscribe((id: number) => {
       this.images.find((i) => i.id == id).linkDeprecated = true;
+    });
+    this.siteState.newTemplate.subscribe((templateEvent) => {
+      this.template = templateEvent.template;
     });
   }
   ngOnInit(): void {}

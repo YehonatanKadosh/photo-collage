@@ -16,7 +16,7 @@ export class MoreDetailsComponent implements OnInit {
     private userService: UserService,
     private siteState: SiteStateService
   ) {
-    if (this.siteState.user) this.initFields(this.siteState.user);
+    if (this.userService.user) this.initFields(this.userService.user);
   }
 
   initFields(user: User) {

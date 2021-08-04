@@ -69,3 +69,9 @@ $dark-mode: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
   padding: 5px 10px 5px 10px !important;
   overflow: hidden !important;
 }
+
+.mat-list .mat-list-item-content {
+  border-radius: 10px;
+  justify-content: space-evenly;
+  @extend .Header;
+}

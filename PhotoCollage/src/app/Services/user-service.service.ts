@@ -9,19 +9,50 @@ import { SiteStateService } from './site-state.service';
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private http: HttpClient, private siteService: SiteStateService) {
-    this.siteService.themeSwitch.subscribe((event) => {
-      if (event.token == 0) this.setpreferedTheme(event.theme);
+  userUpdated: EventEmitter<User> = new EventEmitter<User>();
+  user: User;
+
+  constructor(private http: HttpClient, private siteState: SiteStateService) {
+    this.getUser();
+
+    this.siteState.newTheme.subscribe((themeEvent) => {
+      if (themeEvent.token == 0) this.setpreferedTheme(themeEvent.theme);
     });
 
-    this.siteService.changeTemplate.subscribe((event) => {
-      if (event.token == 0) {
+    this.siteState.newTemplate.subscribe((templateEvent) => {
+      if (templateEvent.token == 0) {
         this.setLibraryNameDescriptionAndTempplate({
-          template: event.template,
+          template: templateEvent.template,
         });
       }
     });
+
+    this.userUpdated.subscribe((user: User) => {
+      this.user = user;
+    });
   }
+
+  getUser = async (): Promise<User> => {
+    return new Promise((res, rej) => {
+      this.http.get<any>(environment.User_API_URL).subscribe(
+        (user: User) => {
+          if (user) {
+            this.userUpdated.emit(user);
+            this.siteState.newTemplate.emit({
+              template: user.template,
+              token: 1,
+            });
+            if (user.preferedTheme)
+              this.siteState.newTheme.emit({
+                theme: user.preferedTheme,
+                token: 1,
+              });
+          }
+        },
+        (error) => {}
+      );
+    });
+  };
 
   checkIfPasswordValid = async (password: string): Promise<boolean> => {
     return new Promise((res) => {
@@ -43,7 +74,7 @@ export class UserService {
         })
         .subscribe(
           (user: User) => {
-            this.siteService.userUpdated.emit(user);
+            this.userUpdated.emit(user);
           },
           (err) => {},
           () => res(true)
@@ -59,7 +90,7 @@ export class UserService {
         })
         .subscribe(
           (user: User) => {
-            this.siteService.userUpdated.emit(user);
+            this.userUpdated.emit(user);
           },
           (err) => {},
           () => res(true)
@@ -77,7 +108,7 @@ export class UserService {
         .post(environment.User_API_URL + '/setExtraDetails', params)
         .subscribe(
           (user: User) => {
-            this.siteService.userUpdated.emit(user);
+            this.userUpdated.emit(user);
           },
           (err) => {},
           () => res(true)
@@ -88,7 +119,7 @@ export class UserService {
   setNewCategory = async (category: Category) => {
     return new Promise((res) => {
       if (
-        !this.siteService.user.categories?.find(
+        !this.user.categories?.find(
           (c) => c.name.toLowerCase() == category.name.toLowerCase()
         )
       ) {
@@ -98,7 +129,8 @@ export class UserService {
           })
           .subscribe(
             (user: User) => {
-              this.siteService.userUpdated.emit(user);
+              this.userUpdated.emit(user);
+              this.siteState.categoriesUpdate.emit(user.categories);
             },
             (err) => {},
             () => res(true)

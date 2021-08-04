@@ -20,7 +20,7 @@ export class PrivateModeAuthComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  setPassword = async () => {
+  setPasswordClick = async () => {
     if (this.Password.valid) {
       let correct: boolean = await this.userService.checkIfPasswordValid(
         this.Password.value

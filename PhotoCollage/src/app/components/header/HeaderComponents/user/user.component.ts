@@ -14,14 +14,14 @@ export class UserComponent implements OnInit {
   Template: string = environment.Template_GRID;
 
   constructor(private siteService: SiteStateService, private router: Router) {
-    siteService.changeTemplate.subscribe((event) => {
-      this.Template = event.template;
+    siteService.newTemplate.subscribe((templateEvent) => {
+      this.Template = templateEvent.template;
     });
   }
   ngOnInit(): void {}
 
   templateChange = () => {
-    this.siteService.changeTemplate.emit({
+    this.siteService.newTemplate.emit({
       template:
         this.Template === environment.Template_GRID
           ? environment.Template_LIST

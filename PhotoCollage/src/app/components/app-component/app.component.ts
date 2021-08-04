@@ -1,5 +1,6 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component, HostBinding, OnInit } from '@angular/core';
+import { UserService } from 'src/app/Services/user-service.service';
 import { environment } from 'src/environments/environment';
 import { SiteStateService } from '../../Services/site-state.service';
 
@@ -13,10 +14,11 @@ export class AppComponent implements OnInit {
 
   constructor(
     private overlay: OverlayContainer,
+    private userSevice: UserService,
     private siteState: SiteStateService
   ) {
-    this.siteState.themeSwitch.subscribe((event) => {
-      this.setClassName(event.theme);
+    this.siteState.newTheme.subscribe((themeEvent) => {
+      this.setClassName(themeEvent.theme);
     });
   }
   ngOnInit() {}

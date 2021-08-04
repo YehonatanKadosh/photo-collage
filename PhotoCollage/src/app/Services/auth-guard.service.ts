@@ -10,7 +10,7 @@ export class AuthGuardService implements CanActivate {
   constructor(private router: Router, private siteState: SiteStateService) {}
 
   canActivate() {
-    // if (!this.siteState.user) {
+    // if (!this.userService.user) {
     //   this.router.navigateByUrl('/404');
     //   return false;
     // }

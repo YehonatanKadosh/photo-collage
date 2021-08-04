@@ -1,4 +1,4 @@
-<div class="search_container">
+<mat-card class="search_container">
   <mat-form-field class="searching-input w-50">
     <input class="search" matInput [(ngModel)]="searchQuery"
     name="search" placeholder="Search for images">
@@ -11,14 +11,17 @@
   <br>
   <button (click)="searchImages(searchQuery, amountOfResults)"
   mat-flat-button color="primary" class="searchButton">Find Images</button>
-</div>
-
-<div *ngIf="searching">
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-</div> 
-
-<app-grid-view *ngIf="images && images.length > 0 else NoImageFound" (AddImage)="AddImage($event)" [images]="images"></app-grid-view>
-
-<ng-template #NoImageFound>
- <h4>No results</h4>
-</ng-template>
+  
+  <div *ngIf="searching">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div> 
+  
+  <ng-container *ngIf="images && images.length > 0 else NoImageFound">
+    <app-grid-view *ngIf="template === 'Grid'" (popPhotoContainer)="popPhotoContainer($event)" (AddImage)="AddImage($event)" [images]="images"></app-grid-view>
+    <app-list-view *ngIf="template === 'List'" (popPhotoContainer)="popPhotoContainer($event)" (AddImage)="AddImage($event)" [images]="images"></app-list-view>
+  </ng-container>
+  
+  <ng-template #NoImageFound>
+    <h4>No results</h4>
+  </ng-template>
+</mat-card>

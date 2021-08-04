@@ -38,6 +38,9 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS } from 'ng-lazyload-image';
 import { LazyLoadImageHooks } from './Hooks/lazyLoadingObserver';
 import { NoPrivateModeConfiguredComponent } from './components/no-private-mode-configured/no-private-mode-configured.component';
+import { PhotoFromWebContainerComponent } from './components/photo-from-web-container/photo-from-web-container.component';
+import { ListViewComponent } from './components/list-view/list-view.component';
+import { UserService } from './Services/user-service.service';
 
 @NgModule({
   declarations: [
@@ -65,6 +68,8 @@ import { NoPrivateModeConfiguredComponent } from './components/no-private-mode-c
     PageNotFoundComponent,
     PrivateModeAuthComponent,
     NoPrivateModeConfiguredComponent,
+    PhotoFromWebContainerComponent,
+    ListViewComponent,
   ],
   imports: [
     materials,
@@ -82,7 +87,10 @@ import { NoPrivateModeConfiguredComponent } from './components/no-private-mode-c
     }),
     LazyLoadImageModule,
   ],
-  providers: [{ provide: LAZYLOAD_IMAGE_HOOKS, useClass: LazyLoadImageHooks }],
+  providers: [
+    { provide: LAZYLOAD_IMAGE_HOOKS, useClass: LazyLoadImageHooks },
+    UserService,
+  ],
   bootstrap: [AppComponent],
   entryComponents: [],
 })

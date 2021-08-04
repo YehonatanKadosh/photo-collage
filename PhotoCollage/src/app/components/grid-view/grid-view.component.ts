@@ -8,13 +8,11 @@ import { Photo } from 'src/Modules/Photo';
 })
 export class GridViewComponent implements OnInit {
   @Input() images: any[];
-  @Output() popPhotoContainer: EventEmitter<Photo> = new EventEmitter();
+  @Output() popPhotoContainer: EventEmitter<any> = new EventEmitter();
   @Output() deleteImage: EventEmitter<Photo> = new EventEmitter();
   @Output() AddImage: EventEmitter<any> = new EventEmitter();
 
-  constructor() {
-    console.log(this.popPhotoContainer);
-  }
+  constructor() {}
 
   ngOnInit(): void {}
 }

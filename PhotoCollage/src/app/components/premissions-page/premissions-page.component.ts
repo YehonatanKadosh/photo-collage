@@ -64,7 +64,7 @@ export class PremissionsPageComponent implements OnInit {
     this.camera =
       (await navigator.permissions.query({ name: 'camera' })).state ===
       'granted';
-    this.privateMode = this.siteState.user?.privateModeEnabled;
+    this.privateMode = this.userService.user?.privateModeEnabled;
   }
   setPrivateMode = () => (this.privateMode = !this.privateMode);
   showPassword = () => (this.passHover = true);

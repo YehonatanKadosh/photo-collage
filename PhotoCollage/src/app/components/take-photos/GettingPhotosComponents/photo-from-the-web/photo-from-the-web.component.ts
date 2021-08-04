@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { PhotoFromWebContainerComponent } from 'src/app/components/photo-from-web-container/photo-from-web-container.component';
+import { SiteStateService } from 'src/app/Services/site-state.service';
 import { Photo } from 'src/Modules/Photo';
 import { PhotoService } from '../../../../Services/photo-service.service';
 import { WebPhotoService } from '../../../../Services/web-photo-service.service';
@@ -14,11 +17,18 @@ export class PhotoFromTheWebComponent {
   imagesFound: boolean = false;
   searching: boolean = false;
   amountOfResults: number = 10;
+  template: string;
 
   constructor(
     private imageService: WebPhotoService,
-    private photoService: PhotoService
-  ) {}
+    private siteState: SiteStateService,
+    private photoService: PhotoService,
+    public dialog: MatDialog
+  ) {
+    this.siteState.newTemplate.subscribe((templateEvent) => {
+      this.template = templateEvent.template;
+    });
+  }
 
   searchImages = async (query: string, amountOfResults: number = 10) => {
     this.searching = true;
@@ -45,6 +55,14 @@ export class PhotoFromTheWebComponent {
 
   AddImage = (image: any) => {
     this.photoService.getNewUrl.emit(image.webformatURL);
+  };
+
+  popPhotoContainer = (image: Photo) => {
+    this.dialog.open(PhotoFromWebContainerComponent, {
+      maxWidth: '300px',
+      maxHeight: '500px',
+      data: image,
+    });
   };
 
   ngOnInit(): void {}

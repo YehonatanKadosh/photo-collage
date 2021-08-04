@@ -7,6 +7,7 @@ import {
 } from '@angular/material/dialog';
 import { PhotoService } from 'src/app/Services/photo-service.service';
 import { SiteStateService } from 'src/app/Services/site-state.service';
+import { UserService } from 'src/app/Services/user-service.service';
 import { Category } from 'src/Modules/Category';
 import { Photo } from 'src/Modules/Photo';
 import { NewCategoryComponent } from '../new-category/new-category.component';
@@ -23,16 +24,17 @@ export class CategoriesSelectionComponent implements OnInit {
   constructor(
     private photoService: PhotoService,
     private siteState: SiteStateService,
+    private userService: UserService,
     public dialog: MatDialog,
     private _bottomSheet: MatBottomSheet,
     public dialogRef: MatDialogRef<CategoriesSelectionComponent>,
     @Inject(MAT_DIALOG_DATA) public image: Photo
   ) {
     this.selectedCategories = image.categories?.map((i) => i.name) || [];
-    this.sortCategories(this.siteState.user.categories || []);
+    this.sortCategories(this.userService.user.categories || []);
 
-    this.siteState.userUpdated.subscribe((user) => {
-      this.sortCategories(user.categories);
+    this.siteState.categoriesUpdate.subscribe((categories: Category[]) => {
+      this.sortCategories(categories);
     });
   }
   ngOnInit(): void {}
