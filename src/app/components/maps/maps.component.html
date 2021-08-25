@@ -1,0 +1,8 @@
+<div class="mapConatainer">
+  <agm-map class="map" [latitude]="coords.latitude" [longitude]="coords.longitude">
+    <agm-marker [latitude]="coords.latitude" [longitude]="coords.longitude"></agm-marker>
+  </agm-map>
+  <button class="backBtn" mat-mini-fab color="warn" >
+    <mat-icon matSuffix [mat-dialog-close]="true">arrow_back</mat-icon>
+  </button>
+</div>

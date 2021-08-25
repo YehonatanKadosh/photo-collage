@@ -1,0 +1,11 @@
+.mat-dialog-container {
+  overflow: auto !important;
+}
+
+.mat-card-title {
+  font-family: monospace;
+}
+
+.mat-dialog-content {
+  max-height: 195px;
+}

@@ -1,0 +1,15 @@
+<div class="PhotoBarContainer" *ngIf="Photos.length > 0">
+    <mat-card class="image" *ngFor="let image of Photos.slice().reverse()">
+        <div class="privateContainer">
+            {{image.isPrivate? 'private' : 'public'}}
+            <app-toggler [initialState]="image.isPrivate" (StateChanged)="setIsPrivae($event, image)"></app-toggler>
+        </div>
+        <div class="imageContainer">
+            <img class="Image-Group" [src]="image.url" />
+            <button mat-mini-fab color="warn" class="trashIcon" (click)="Remove(image)">
+                <mat-icon matSuffix >delete</mat-icon>
+            </button>
+        </div>
+    </mat-card>
+</div>
+    

@@ -1,0 +1,20 @@
+
+<mat-form-field appearance="fill">
+      <input [formControl]="libraryName" matInput placeholder="Library name" required >
+      <mat-icon matSuffix>collections</mat-icon>
+      <mat-error *ngIf="libraryName.invalid">required</mat-error>
+</mat-form-field><br />
+<mat-form-field appearance="standard">
+      <input [formControl]="description" matInput placeholder="Description">
+      <mat-icon matSuffix>description</mat-icon>
+</mat-form-field><br />
+<mat-form-field appearance="fill">
+      <mat-label>Template</mat-label>
+      <mat-select [formControl]="SelectedLayout" required>
+            <mat-option>None</mat-option>
+            <mat-option value="Grid">Grid</mat-option>
+            <mat-option value="List">List</mat-option>
+      </mat-select>
+      <mat-error *ngIf="SelectedLayout.invalid">required</mat-error>
+</mat-form-field><br />
+<button routerLink="/TakePhotos" class="btn btn-primary" [disabled]="libraryName.invalid || SelectedLayout.invalid" (click)="done()">Next</button>

@@ -1,0 +1,10 @@
+<div class="toggler" [ngClass]="{'enabled':state, 'disabled':!state}" (click)="TogglerClicked()">
+    <div class="TogglerLine">
+        <div Name="checkIcon" class="checkIcon" [ngClass]="{'enabled':state, 'disabled':!state}" >
+            <fa-icon [icon]="check"></fa-icon>
+        </div>
+        <div Name="uncheckIcon" class="uncheckIcon" [ngClass]="{'enabled':!state, 'disabled':state}" >
+            <fa-icon [icon]="times"></fa-icon>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,8 @@
+<div dropzoneDnd (fileDropped)="onFileDropped($event)" class="main Header dropzone">
+    <h3>Drag & drop files</h3>
+    <fa-icon class="upload_icon" [icon]="fileUploadIcon"></fa-icon>
+    <h3>or</h3>
+    <button class="btn btn-primary">Brows for files</button>
+    <input class="dropzoneInput" type="file" multiple accept="image/*" (change)="filesBrowseHandler($event.target.files)"/>
+</div>
+

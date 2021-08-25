@@ -1,0 +1,17 @@
+<div class="main">
+    <div class="Head">
+        <mat-icon color="warn" class="exitIcon" mat-dialog-close>close</mat-icon>
+        <div class="title"> {{ image.tags.split(',')[0] }} </div>
+    </div>
+
+    <img class="containerImage" [src]="image.webformatURL">
+    
+    <mat-card-content>
+        <p>
+            <span>Likes: {{ image.likes }}</span><br />
+            <span>views: {{ image.views }}</span><br />
+            <span>downloads: {{ image.downloads }}</span><br />
+            <span>user: {{ image.user }}</span>
+        </p>
+    </mat-card-content>
+</div>

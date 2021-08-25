@@ -1,0 +1,22 @@
+<button mat-flat-button [color]="camera ? 'primary':'warn'" (click)="handleCameraPermission()" [disabled]="camera">
+  allow device camera
+  <mat-icon>{{camera ? 'linked_camera': 'camera'}}</mat-icon>
+</button><br />
+<button mat-flat-button [color]="geolocation ? 'primary':'warn'" (click)="handleGeoPermission()" [disabled]="geolocation">
+  allow device location
+  <mat-icon>{{geolocation ? 'location_on':'location_off'}}</mat-icon>
+</button><br />
+<button mat-flat-button [color]="privateMode ? 'primary':'warn'" (click)="setPrivateMode()">
+  allow private mode
+  <mat-icon>{{privateMode ? 'lock':'lock_open'}}</mat-icon>
+</button><br />
+<mat-form-field *ngIf="privateMode" appearance="fill">
+  <mat-label>Password</mat-label>
+  <input matInput [type]="passHover ? 'text' : 'password'" [formControl]="privatePass" 
+  (mouseenter) ="showPassword()" (mouseleave) ="hidePassword()">
+</mat-form-field><br />
+
+<button routerLink="/MoreDetails" class="btn btn-primary" (click)="done()">Next</button>
+
+
+
