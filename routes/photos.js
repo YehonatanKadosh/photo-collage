@@ -44,10 +44,12 @@ router.get("/getPhotos", async (req, res) => {
         photo.caption.toLowerCase().includes(req.query.query.toLowerCase())
       );
     if (req.query.category)
-      jsonFile = jsonFile.filter((photo) =>
-        photo.categories?.find(
-          (category) => category.name == req.query.category
-        )
+      jsonFile = jsonFile.filter(
+        (photo) =>
+          photo.categories &&
+          photo.categories.find(
+            (category) => category.name == req.query.category
+          )
       );
   }
   if (jsonFile.length == 0) res.send([]);
