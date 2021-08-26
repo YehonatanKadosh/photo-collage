@@ -26,7 +26,7 @@ jobs:
         run: |
           npm install
           npm run build --prod
-          working-directory: .
+        working-directory: .
 
       - name: Run Azure webapp deploy action using publish profile credentials
         uses: azure/webapps-deploy@v2
