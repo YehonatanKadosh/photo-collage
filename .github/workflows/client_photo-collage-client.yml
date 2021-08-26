@@ -13,27 +13,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # checkout the repo
-    - name: 'Checkout Github Action'
-      uses: actions/checkout@master
+      # checkout the repo
+      - name: "Checkout Github Action"
+        uses: actions/checkout@master
 
+      - name: Set up Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
 
-    - name: Set up Node.js version
-      uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
+      - name: npm install, build, and test
+        run: |
+          npm install -g @angular/cli
+          npm install
+          ng build --prod
 
-    - name: npm install, build, and test
-      run: |
-        npm install -g @angular/cli
-    npm install
-    ng build --prod
-
-    - name: Run Azure webapp deploy action using publish profile credentials
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: photo-collage-client
-        slot-name: Production
-        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_352E446D88474E2AAC76B8370671FBF8 }}
-        package: .
-
+      - name: Run Azure webapp deploy action using publish profile credentials
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: photo-collage-client
+          slot-name: Production
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_352E446D88474E2AAC76B8370671FBF8 }}
+          package: .
