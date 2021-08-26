@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "build": "ng build --prod",
+    "start": "ng serve",
+    "build": "ng build",
+    "build-prod": "ng build --prod",
+    "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -34,10 +37,7 @@
     "ngx-webcam": "^0.3.2",
     "rxjs": "^6.6.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.3",
-    "@angular/cli": "^12.1.2",
-    "@angular/compiler-cli": "^12.1.2",
-    "typescript": "^4.3.5"
+    "zone.js": "~0.11.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^12.1.2",
