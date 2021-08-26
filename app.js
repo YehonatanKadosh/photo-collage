@@ -4,10 +4,9 @@ const photos = require("./routes/photos");
 const user = require("./routes/user");
 const notFound = require("./routes/notFound");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 
-app.use(bodyParser.json({ extended: true, limit: "50mb" }));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json({ extended: true, limit: "50mb" }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 app.use("/Photos", photos);
