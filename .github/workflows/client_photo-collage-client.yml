@@ -32,5 +32,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: "photo-collage-client"
-          publish-profile: $
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_352E446D88474E2AAC76B8370671FBF8 }}
           package: ./dist/photo-collage-client
