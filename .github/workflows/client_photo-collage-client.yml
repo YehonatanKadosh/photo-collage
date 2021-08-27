@@ -31,6 +31,6 @@ jobs:
       - name: Run Azure webapp deploy action using publish profile credentials
         uses: azure/webapps-deploy@v2
         with:
-          app-name: photo-collage-client
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_352E446D88474E2AAC76B8370671FBF8 }}
+          app-name: "photo-collage-client"
+          publish-profile: $
           package: ./dist/photo-collage-client
