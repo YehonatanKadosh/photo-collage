@@ -13,27 +13,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # checkout the repo
-    - name: 'Checkout Github Action'
-      uses: actions/checkout@master
+      # checkout the repo
+      - name: "Checkout Github Action"
+        uses: actions/checkout@master
 
+      - name: Set up Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
 
-    - name: Set up Node.js version
-      uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
 
-    - name: npm install, build, and test
-      run: |
-        npm install
-        npm run build --if-present
-        npm run test --if-present
-
-    - name: Run Azure webapp deploy action using publish profile credentials
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: photo-collage-server
-        slot-name: Production
-        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3A3558DB5EC54DA5A77A1E31FE6B15DD }}
-        package: .
-
+      - name: Run Azure webapp deploy action using publish profile credentials
+        uses: azure/webapps-deploy@v2
+        env:
+          PIXABAY_API_URL: ${{ secrets.PIXABAY_API_URL }}
+        with:
+          app-name: photo-collage-server
+          slot-name: Production
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3A3558DB5EC54DA5A77A1E31FE6B15DD }}
+          package: .
