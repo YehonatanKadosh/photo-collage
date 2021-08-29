@@ -53,6 +53,18 @@ router.post("/setCategory", async (req, res, next) => {
   res.send(jsonFile);
 });
 
+router.post("/remove-category", async (req, res, next) => {
+  jsonFile = await setJsonFileIfNotExist();
+  if (jsonFile.categories) {
+    let categoryIndex = jsonFile.categories.indexOf(
+      jsonFile.categories.find((c) => c.name === req.body.name)
+    );
+    jsonFile.categories.splice(categoryIndex, 1);
+    await fs.writeFile(jsonFilePath, JSON.stringify(jsonFile));
+    res.send(jsonFile.categories);
+  } else res.status(400).send("no categories found");
+});
+
 const setJsonFileIfNotExist = async () => {
   return new Promise(async (res) => {
     try {
