@@ -42,6 +42,7 @@ import { PhotoFromWebContainerComponent } from './components/photo-from-web-cont
 import { ListViewComponent } from './components/list-view/list-view.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { CarouselComponent } from './components/carousel/carousel.component';
+import { CategoriesControlComponent } from './components/categories-control/categories-control.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { CarouselComponent } from './components/carousel/carousel.component';
     PhotoFromWebContainerComponent,
     ListViewComponent,
     CarouselComponent,
+    CategoriesControlComponent,
   ],
   imports: [
     materials,

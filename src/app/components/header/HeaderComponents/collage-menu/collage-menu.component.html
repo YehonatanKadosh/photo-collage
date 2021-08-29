@@ -12,7 +12,7 @@
         <mat-icon *ngIf="!isPrivate">lock_open</mat-icon>
         <span>{{!isPrivate ? 'Private mode off': 'Private mode on'}}</span>
     </button>
-    <button mat-menu-item [disabled]="!user">
+    <button mat-menu-item (click)="popCategoryControl()" [disabled]="!user">
         <mat-icon>category</mat-icon>
         <span>Categories</span>
     </button>

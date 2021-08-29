@@ -1,0 +1,14 @@
+<mat-card-title>
+    <mat-icon matSuffix [mat-dialog-close]="true">arrow_back</mat-icon>
+    categories controller
+</mat-card-title>
+<mat-dialog-content *ngIf="allCategories.length > 0" >
+    <mat-selection-list [multiple]="false">
+        <mat-list-option [value]='category.name' *ngFor="let category of allCategories">
+            {{category.name}}
+            <button mat-mini-fab color="" class="trashIcon" (click)="deleteCategory(category)">
+                <mat-icon matSuffix color="warn">delete</mat-icon>
+            </button>
+        </mat-list-option>
+    </mat-selection-list>
+ </mat-dialog-content>

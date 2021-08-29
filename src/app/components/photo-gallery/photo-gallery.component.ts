@@ -30,8 +30,8 @@ export class PhotoGalleryComponent implements OnInit {
     private userService: UserService
   ) {
     this.getImages();
-    this.categories = this.userService.user?.categories || []; // ? only in development
-    this.template = this.userService.user?.template;
+    this.categories = this.userService.user.categories || []; // ? only in development
+    this.template = this.userService.user.template;
 
     this.siteState.categoriesUpdate.subscribe((categories: Category[]) => {
       this.categories = categories;

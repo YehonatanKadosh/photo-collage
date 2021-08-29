@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { User } from 'src/Modules/User';
 import { UserService } from 'src/app/Services/user-service.service';
 import { Router } from '@angular/router';
+import { CategoriesControlComponent } from 'src/app/components/categories-control/categories-control.component';
 
 @Component({
   selector: 'app-collage-menu',
@@ -48,6 +49,13 @@ export class CollageMenuComponent implements OnInit {
         this._bottomSheet.open(PrivateModeAuthComponent);
       else this.dialog.open(NoPrivateModeConfiguredComponent);
     } else this.siteState.privacyAuthenticated.emit(false);
+  };
+
+  popCategoryControl = () => {
+    this.dialog.open(CategoriesControlComponent, {
+      maxWidth: '50%',
+      maxHeight: '85%',
+    });
   };
 
   ExitClick = () => this.router.navigateByUrl('/');

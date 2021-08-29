@@ -1,0 +1,21 @@
+.mat-dialog-container {
+  overflow: auto !important;
+}
+
+.mat-card-title {
+  font-family: monospace;
+}
+
+.mat-dialog-content {
+  max-height: 195px;
+}
+
+.trashIcon {
+  position: absolute;
+  right: 0;
+  top: calc(50% - 20px);
+}
+
+.trashIcon:hover {
+  visibility: visible;
+}
