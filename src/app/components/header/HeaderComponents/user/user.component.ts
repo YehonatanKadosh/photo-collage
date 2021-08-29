@@ -41,7 +41,7 @@ export class UserComponent implements OnInit {
   importClicked = () => this.router.navigateByUrl('/TakePhotos');
   caruselClicked = async () => {
     let avelablePhotos = await this.photoService.getPhotosFromServer();
-    if (avelablePhotos == [])
+    if (avelablePhotos.length)
       this.dialog.open(CarouselComponent, {
         width: '90vw',
         height: '90vh',

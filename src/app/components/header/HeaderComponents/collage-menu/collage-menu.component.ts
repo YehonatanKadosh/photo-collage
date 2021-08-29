@@ -7,6 +7,7 @@ import { SiteStateService } from 'src/app/Services/site-state.service';
 import { environment } from 'src/environments/environment';
 import { User } from 'src/Modules/User';
 import { UserService } from 'src/app/Services/user-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-collage-menu',
@@ -22,6 +23,7 @@ export class CollageMenuComponent implements OnInit {
     private _bottomSheet: MatBottomSheet,
     private siteState: SiteStateService,
     private userService: UserService,
+    private router: Router,
     public dialog: MatDialog
   ) {
     this.siteState.newTheme.subscribe((themeEvent) => {
@@ -47,4 +49,6 @@ export class CollageMenuComponent implements OnInit {
       else this.dialog.open(NoPrivateModeConfiguredComponent);
     } else this.siteState.privacyAuthenticated.emit(false);
   };
+
+  ExitClick = () => this.router.navigateByUrl('/');
 }
