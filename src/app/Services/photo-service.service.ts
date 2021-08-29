@@ -1,9 +1,10 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Photo } from 'src/Modules/Photo';
 import { environment } from 'src/environments/environment';
 import { Category } from 'src/Modules/Category';
 import { SiteStateService } from './site-state.service';
+import { stringify } from '@angular/compiler/src/util';
 @Injectable({
   providedIn: 'root',
 })
@@ -12,10 +13,21 @@ export class PhotoService {
 
   constructor(private http: HttpClient, private siteState: SiteStateService) {}
 
-  saveNewPhotos = async (photos: Photo[]) => {
+  saveNewPhotos = async (photos: Photo[], files: File[]) => {
     return new Promise(async (res, rej) => {
+      let formData: FormData = new FormData();
+      files.forEach((file) => formData.append('files', file));
+      photos.forEach((photo) =>
+        formData.append('photos', JSON.stringify(photo))
+      );
+
       this.http
-        .post<any>(environment.SERVER_URL + '/Photos/addPhotos', photos)
+        .post<any>(environment.SERVER_URL + '/Photos/addPhotos', formData, {
+          headers: new HttpHeaders().set(
+            'enctype',
+            'multipart/form-data; boundary=photos'
+          ),
+        })
         .subscribe(
           (next) => {},
           (err) => {},
@@ -185,6 +197,6 @@ export class PhotoService {
     });
   // upload
   getNewUrl: EventEmitter<string> = new EventEmitter<string>();
-  getNewPhoto: EventEmitter<Photo> = new EventEmitter<Photo>();
+  getNewPhoto: EventEmitter<File> = new EventEmitter<File>();
   getNewFiles: EventEmitter<File[]> = new EventEmitter<File[]>();
 }

@@ -1,6 +1,6 @@
 <mat-card-content>
     <mat-form-field>
-        <mat-label>{{image.caption.split('.').slice(0, -1).join('.') || image.caption}}</mat-label>
+        <mat-label>{{image.caption?.split('.').slice(0, -1).join('.') || image.caption}}</mat-label>
         <input matInput [formControl]="newPhotoName" (change)="nameChanged()">
         <mat-icon matSuffix>edit</mat-icon>
     </mat-form-field>

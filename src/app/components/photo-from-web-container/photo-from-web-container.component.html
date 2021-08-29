@@ -1,7 +1,7 @@
 <div class="main">
     <div class="Head">
         <mat-icon color="warn" class="exitIcon" mat-dialog-close>close</mat-icon>
-        <div class="title"> {{ image.tags.split(',')[0] }} </div>
+        <div class="title"> {{ image.tags?.split(',')[0] }} </div>
     </div>
 
     <img class="containerImage" [src]="image.webformatURL">

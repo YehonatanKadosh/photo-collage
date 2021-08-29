@@ -11,46 +11,39 @@ import { PhotoService } from '../../../../Services/photo-service.service';
 })
 export class PhotosBarComponent implements OnInit {
   Photos: Photo[] = [];
+  Files: File[] = [];
 
   constructor(private photoService: PhotoService, private router: Router) {
-    this.photoService.getNewPhoto.subscribe(async (photo: Photo) => {
-      if (!(await this.PhotoExists(photo.url))) this.Photos.push(photo);
+    this.photoService.getNewPhoto.subscribe(async (file: File) => {
+      await this.addNewFile(file);
     });
+
     this.photoService.getNewUrl.subscribe(async (url: string) => {
-      if (!(await this.PhotoExists(url))) {
+      if (!(await this.PhotoExists(url, null))) {
         navigator.geolocation.getCurrentPosition((position) => {
           this.Photos.push(
-            new Photo(url, position.coords.latitude, position.coords.longitude)
+            new Photo({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              url,
+            })
           );
         });
       }
     });
+
     this.photoService.getNewFiles.subscribe((Files: File[]) => {
-      Array.from(Files).forEach(
-        async (file) =>
-          await this.getBase64(file).then(async (base64String) => {
-            if (!(await this.PhotoExists(base64String))) {
-              navigator.geolocation.getCurrentPosition((position) => {
-                this.Photos.push(
-                  new Photo(
-                    base64String,
-                    position.coords.latitude,
-                    position.coords.longitude,
-                    file.type,
-                    file.name
-                  )
-                );
-              });
-            }
-          })
-      );
+      Array.from(Files).forEach(async (file) => await this.addNewFile(file));
     });
+
     this.photoService.finishedUploading.subscribe(async () => {
       if (this.Photos.length == 0) this.router.navigateByUrl('/PhotoGallery');
       else {
         await this.photoService
-          .saveNewPhotos(this.Photos)
+          .saveNewPhotos(this.Photos, this.Files)
           .then(() => this.router.navigateByUrl('/PhotoGallery'));
+        this.Files = [];
+        this.Photos = [];
       }
     });
   }
@@ -59,25 +52,37 @@ export class PhotosBarComponent implements OnInit {
 
   setIsPrivae = ($event, image: Photo) => (image.isPrivate = $event as boolean);
 
-  PhotoExists = async (photoUrl: string): Promise<boolean> => {
+  PhotoExists = (url?: string, file?: File): Promise<boolean> => {
     return new Promise((res, rej) => {
-      if (this.Photos.find((photo) => photo.url == photoUrl)) res(true);
+      if (file) {
+        res(
+          this.Files.includes(
+            this.Files.find((Ffile) => Ffile.name === file.name)
+          )
+        );
+      } else if (url)
+        res(
+          this.Photos.includes(this.Photos.find((photo) => photo.url === url))
+        );
       else res(false);
     });
   };
 
-  getBase64(file: File): Promise<string> {
-    return new Promise((res, rej) => {
-      let reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function () {
-        res(reader.result.toString());
-      };
-      reader.onerror = function (error) {
-        rej('');
-      };
-    });
-  }
+  addNewFile = async (file: File) => {
+    if (!(await this.PhotoExists(null, file))) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.Photos.push(
+          new Photo({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            fileType: file.type,
+            fileName: file.name,
+          })
+        );
+        this.Files.push(file);
+      });
+    }
+  };
 
   Remove = (image: Photo) => {
     let index: number = this.Photos.indexOf(image, 0);

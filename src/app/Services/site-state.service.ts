@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, EventEmitter } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { Category } from 'src/Modules/Category';
-import { User } from 'src/Modules/User';
 
 @Injectable({
   providedIn: 'root',

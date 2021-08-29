@@ -52,16 +52,25 @@ export class PhotoFromCameraComponent implements OnInit {
     this.imageCaptured = true;
   }
 
+  Base64ToFile = function (imageData: string): File {
+    var arr = imageData.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], 'Photo_' + new Date().getTime(), {
+      type: mime,
+    });
+  };
+
   async AddCapturedPhoto() {
-    let newPhoto: Photo;
-    navigator.geolocation.getCurrentPosition((position) => {
+    navigator.geolocation.getCurrentPosition(async (position) => {
       this.photoService.getNewPhoto.emit(
-        new Photo(
-          this.capturedImage.imageAsDataUrl,
-          position.coords.latitude,
-          position.coords.longitude,
-          'image/jpeg'
-        )
+        this.Base64ToFile(this.capturedImage.imageAsDataUrl)
       );
     });
     this.imageCaptured = false;
