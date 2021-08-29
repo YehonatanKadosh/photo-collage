@@ -5,7 +5,7 @@
             <app-toggler [initialState]="image.isPrivate" (StateChanged)="setIsPrivae($event, image)"></app-toggler>
         </div>
         <div class="imageContainer">
-            <img class="Image-Group" [src]="image.url" />
+            <img class="Image-Group" [src]="image.url || 'assets/noImage.jpg'" />
             <button mat-mini-fab color="warn" class="trashIcon" (click)="Remove(image)">
                 <mat-icon matSuffix >delete</mat-icon>
             </button>
