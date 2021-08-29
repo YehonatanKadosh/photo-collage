@@ -6,9 +6,8 @@ const jsonFilePath = path.join(
   path.dirname(require.main.filename),
   "userPhotos.json"
 );
-const https = require("https");
+const got = require("got");
 const imagesDir = path.join(path.dirname(require.main.filename), "Images");
-const ServerName = "http://localhost:3000/";
 
 router.post("/addPhotos", async (req, res) => {
   let jsonFile = await setJsonFileIfNotExist();
@@ -127,12 +126,13 @@ router.post("/removeImage", async (req, res) => {
 
 router.get("/photos-from-web", async (req, res) => {
   if (req.query.query) {
-    https.get(
-      process.env.PIXABAY_API_URL +
-        `&q=${req.query.query}&per_page=${req.query.amountOfResults || 20}`,
-      (responseFromPixabay) => {
-        res.send(responseFromPixabay);
-      }
+    res.send(
+      (
+        await got(
+          process.env.PIXABAY_API_URL +
+            `&q=${req.query.query}&per_page=${req.query.amountOfResults}`
+        )
+      ).body
     );
   } else res.status(400).send("no query provided");
 });
@@ -142,7 +142,7 @@ const addImageToDB = async (photo) => {
   let buf = Buffer.from(res, "base64");
   let PhotoAbsoluteUrl = path.join(imagesDir, photo.caption);
   await fs.writeFile(PhotoAbsoluteUrl, buf);
-  photo.url = ServerName + photo.caption;
+  photo.url = photo.caption;
 };
 
 const checkIfExistsInJson = async (isBase64, fileName, jsonFile) => {

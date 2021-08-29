@@ -4,6 +4,7 @@ const photos = require("./routes/photos");
 const user = require("./routes/user");
 const notFound = require("./routes/notFound");
 const cors = require("cors");
+require("dotenv").config();
 
 app.use(express.json({ extended: true, limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
