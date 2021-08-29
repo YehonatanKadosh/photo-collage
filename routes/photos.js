@@ -9,7 +9,8 @@ const upload = multer({
   storage: new MulterAzureStorage({
     containerName: "photos",
     containerSecurity: "Blob",
-    azureStorageConnectionString: process.env.AZURE_STORAGE_CONNECTION_STRING,
+    azureStorageConnectionString:
+      "DefaultEndpointsProtocol=https;AccountName=photosjk;AccountKey=jPF7eeQSyk0cdDplJX5BTwjr3Y3nerhf8dlT1AOmynbUK1YNarUIQNRFI+oiPLJfZyy98I6uJ7hgu5j7eqoEzg==;EndpointSuffix=core.windows.net",
   }),
 });
 const jsonFilePath = path.join(
@@ -133,7 +134,7 @@ router.post("/removeImage", async (req, res) => {
     let imageToRemove = jsonFile.find((image) => image.id == req.body.id);
     if (!imageToRemove.url.includes("pixabay")) {
       const blobServiceClient = await BlobServiceClient.fromConnectionString(
-        process.env.AZURE_STORAGE_CONNECTION_STRING
+        "DefaultEndpointsProtocol=https;AccountName=photosjk;AccountKey=jPF7eeQSyk0cdDplJX5BTwjr3Y3nerhf8dlT1AOmynbUK1YNarUIQNRFI+oiPLJfZyy98I6uJ7hgu5j7eqoEzg==;EndpointSuffix=core.windows.net"
       );
       const containerClient = await blobServiceClient.getContainerClient(
         "photos"
