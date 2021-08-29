@@ -4,7 +4,6 @@ import { Photo } from 'src/Modules/Photo';
 import { environment } from 'src/environments/environment';
 import { Category } from 'src/Modules/Category';
 import { SiteStateService } from './site-state.service';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -16,7 +15,7 @@ export class PhotoService {
   saveNewPhotos = async (photos: Photo[]) => {
     return new Promise(async (res, rej) => {
       this.http
-        .post<any>(environment.Photos_API_URl + '/addPhotos', photos)
+        .post<any>(environment.SERVER_URL + '/Photos/addPhotos', photos)
         .subscribe(
           (next) => {},
           (err) => {},
@@ -24,7 +23,6 @@ export class PhotoService {
         );
     });
   };
-
   // For the Gallery
   getPhotosFromServer = async (
     searchQuery?: string,
@@ -33,7 +31,7 @@ export class PhotoService {
     return new Promise<Photo[]>((resolve) => {
       this.http
         .get<any>(
-          environment.Photos_API_URl + '/getPhotos',
+          environment.SERVER_URL + '/Photos/getPhotos',
           searchQuery || searchCategory
             ? {
                 params: new HttpParams()
@@ -67,7 +65,7 @@ export class PhotoService {
   setFavorite = async (imageId: number, favorite: boolean): Promise<Photo> => {
     return new Promise(async (res, rej) => {
       this.http
-        .post(environment.Photos_API_URl + '/setFavorite', {
+        .post(environment.SERVER_URL + '/Photos/setFavorite', {
           id: imageId,
           favorite: favorite,
         })
@@ -84,7 +82,7 @@ export class PhotoService {
   setPrivate = async (imageId: number, isPrivate: boolean): Promise<Photo> => {
     return new Promise(async (res, rej) => {
       this.http
-        .post(environment.Photos_API_URl + '/setPrivate', {
+        .post(environment.SERVER_URL + '/Photos/setPrivate', {
           id: imageId,
           isPrivate: isPrivate,
         })
@@ -104,7 +102,7 @@ export class PhotoService {
   ): Promise<Photo> => {
     return new Promise(async (res, rej) => {
       this.http
-        .post(environment.Photos_API_URl + '/setCategories', {
+        .post(environment.SERVER_URL + '/Photos/setCategories', {
           id: imageId,
           categories: categories,
         })
@@ -121,7 +119,7 @@ export class PhotoService {
   setName = async (imageId: number, name: string): Promise<Photo> => {
     return new Promise(async (res, rej) => {
       this.http
-        .post(environment.Photos_API_URl + '/setName', {
+        .post(environment.SERVER_URL + '/Photos/setName', {
           id: imageId,
           name: name,
         })
@@ -138,7 +136,7 @@ export class PhotoService {
   deletePhoto = async (imageId: number): Promise<boolean> => {
     return new Promise((res) => {
       this.http
-        .post(environment.Photos_API_URl + '/removeImage', {
+        .post(environment.SERVER_URL + '/Photos/removeImage', {
           id: imageId,
         })
         .subscribe(
@@ -154,7 +152,7 @@ export class PhotoService {
   Deprecated = async (imageId: number): Promise<Photo> => {
     return new Promise((res) => {
       this.http
-        .post(environment.Photos_API_URl + '/setDeprecated', {
+        .post(environment.SERVER_URL + '/Photos/setDeprecated', {
           id: imageId,
         })
         .subscribe(
@@ -170,7 +168,7 @@ export class PhotoService {
   getImagesFromWeb = async (query, amountOfResults = 20): Promise<[]> =>
     new Promise((res, rej) => {
       this.http
-        .get(environment.Photos_API_URl + '/photos-from-web', {
+        .get(environment.SERVER_URL + '/Photos/photos-from-web', {
           params: new HttpParams()
             .set('query', query)
             .set('amountOfResults', amountOfResults),

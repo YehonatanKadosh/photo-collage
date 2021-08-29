@@ -34,7 +34,7 @@ export class UserService {
 
   getUser = async (): Promise<User> => {
     return new Promise((res, rej) => {
-      this.http.get<any>(environment.User_API_URL).subscribe(
+      this.http.get<any>(environment.SERVER_URL + '/User').subscribe(
         (user: User) => {
           if (user) {
             this.userUpdated.emit(user);
@@ -57,7 +57,7 @@ export class UserService {
   checkIfPasswordValid = async (password: string): Promise<boolean> => {
     return new Promise((res) => {
       this.http
-        .get(environment.User_API_URL + '/validatePassword', {
+        .get(environment.SERVER_URL + '/User/validatePassword', {
           params: new HttpParams().set('password', password),
         })
         .subscribe((authenticated: boolean) => {
@@ -69,7 +69,7 @@ export class UserService {
   setPassword = async (password: string) => {
     return new Promise((res) => {
       this.http
-        .post(environment.User_API_URL + '/setprivateModePassword', {
+        .post(environment.SERVER_URL + '/User/setprivateModePassword', {
           password: password,
         })
         .subscribe(
@@ -85,7 +85,7 @@ export class UserService {
   setpreferedTheme = async (preferedTheme: string) => {
     return new Promise((res) => {
       this.http
-        .post(environment.User_API_URL + '/setPreferedTheme', {
+        .post(environment.SERVER_URL + '/User/setPreferedTheme', {
           preferedTheme: preferedTheme,
         })
         .subscribe(
@@ -105,7 +105,7 @@ export class UserService {
   }) => {
     return new Promise((res) => {
       this.http
-        .post(environment.User_API_URL + '/setExtraDetails', params)
+        .post(environment.SERVER_URL + '/User/setExtraDetails', params)
         .subscribe(
           (user: User) => {
             this.userUpdated.emit(user);
@@ -124,7 +124,7 @@ export class UserService {
         )
       ) {
         this.http
-          .post(environment.User_API_URL + '/setCategory', {
+          .post(environment.SERVER_URL + '/User/setCategory', {
             category: category,
           })
           .subscribe(
