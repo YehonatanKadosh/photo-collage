@@ -167,6 +167,24 @@ export class PhotoService {
     });
   };
 
+  getImagesFromWeb = async (query, amountOfResults = 20): Promise<[]> =>
+    new Promise((res, rej) => {
+      this.http
+        .get(environment.Photos_API_URl + '/photos-from-web', {
+          params: new HttpParams()
+            .set('query', query)
+            .set('amountOfResults', amountOfResults),
+        })
+        .subscribe(
+          (photosFromWeb: []) => {
+            res(photosFromWeb);
+          },
+          (err) => {
+            rej(err);
+          },
+          () => {}
+        );
+    });
   // upload
   getNewUrl: EventEmitter<string> = new EventEmitter<string>();
   getNewPhoto: EventEmitter<Photo> = new EventEmitter<Photo>();

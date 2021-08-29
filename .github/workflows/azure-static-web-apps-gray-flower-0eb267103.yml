@@ -28,8 +28,6 @@ jobs:
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         env:
-          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
-          PIXABAY_API_URL: https://pixabay.com/api/?key=
           GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
           Photos_API_URl: https://photo-collage-server.azurewebsites.net/Photos
           User_API_URL: https://photo-collage-server.azurewebsites.net/User,

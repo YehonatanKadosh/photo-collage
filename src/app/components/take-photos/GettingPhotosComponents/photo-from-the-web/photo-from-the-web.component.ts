@@ -5,7 +5,6 @@ import { SiteStateService } from 'src/app/Services/site-state.service';
 import { UserService } from 'src/app/Services/user-service.service';
 import { Photo } from 'src/Modules/Photo';
 import { PhotoService } from '../../../../Services/photo-service.service';
-import { WebPhotoService } from '../../../../Services/web-photo-service.service';
 
 @Component({
   selector: 'app-photo-from-the-web',
@@ -21,7 +20,6 @@ export class PhotoFromTheWebComponent {
   template: string;
 
   constructor(
-    private imageService: WebPhotoService,
     private siteState: SiteStateService,
     private userSevice: UserService,
     private photoService: PhotoService,
@@ -35,20 +33,21 @@ export class PhotoFromTheWebComponent {
 
   searchImages = async (query: string, amountOfResults: number = 10) => {
     this.searching = true;
-    return (
-      await this.imageService.getImages(
+    try {
+      let data = await this.photoService.getImagesFromWeb(
         query,
         amountOfResults < 10
           ? 10
           : amountOfResults > 200
           ? 200
           : amountOfResults
-      )
-    ).subscribe({
-      next: (data) => this.HandleImages(data),
-      error: (error) => (this.imagesFound = false),
-      complete: () => (this.searching = false),
-    });
+      );
+      this.HandleImages(data);
+      this.searching = false;
+    } catch (err) {
+      this.imagesFound = false;
+      this.searching = false;
+    }
   };
 
   HandleImages(data): void {
