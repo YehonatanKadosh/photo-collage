@@ -12,7 +12,6 @@ app.use(cors());
 
 app.use("/Photos", photos);
 app.use("/User", user);
-app.use(express.static("Images"));
 app.use("/**", notFound);
 
 app.listen(process.env.PORT || 3000, () => {

@@ -3,6 +3,7 @@ const fs = require("fs").promises;
 const path = require("path");
 const router = express.Router();
 const multer = require("multer");
+const { BlobServiceClient } = require("@azure/storage-blob");
 const MulterAzureStorage = require("multer-azure-storage");
 const upload = multer({
   storage: new MulterAzureStorage({
@@ -18,19 +19,32 @@ const jsonFilePath = path.join(
 const got = require("got");
 const imagesDir = path.join(path.dirname(require.main.filename), "Images");
 
-router.post("/addPhotos", upload.array("new_images", 100), async (req, res) => {
-  let jsonFile = await setJsonFileIfNotExist();
-  let itemsProcessed = 0;
-  req.body.photos.forEach(async (photo) => {
-    if (!(await checkIfExistsInJson(photo.url, jsonFile))) {
-      jsonFile.push(photo);
-      itemsProcessed++;
-    } else itemsProcessed++;
-    if (itemsProcessed === req.body.length) {
-      await fs.writeFile(jsonFilePath, JSON.stringify(jsonFile));
-      res.end();
-    }
-  });
+router.post("/addPhotos", upload.array("files"), async (req, res) => {
+  const newPhotosArray = [];
+  if (Array.isArray(req.body.photos))
+    req.body.photos.forEach((photo) => {
+      let newPhoto = JSON.parse(photo);
+      if (!newPhoto.url)
+        newPhoto.url = req.files.find(
+          (file) => file.originalname === newPhoto.caption
+        ).url;
+      newPhotosArray.push(newPhoto);
+    });
+  else {
+    let Photo = JSON.parse(req.body.photos);
+    Photo.url = req.files.find(
+      (file) => file.originalname === Photo.caption
+    ).url;
+    newPhotosArray.push(Photo);
+  }
+  jsonFile = await setJsonFileIfNotExist();
+  if (jsonFile.length)
+    await fs.writeFile(
+      jsonFilePath,
+      JSON.stringify([...jsonFile, ...newPhotosArray])
+    );
+  else await fs.writeFile(jsonFilePath, JSON.stringify(newPhotosArray));
+  res.end();
 });
 
 router.get("/getPhotos", async (req, res) => {
@@ -117,10 +131,21 @@ router.post("/removeImage", async (req, res) => {
   jsonFile = await setJsonFileIfNotExist();
   if (jsonFile.length) {
     let imageToRemove = jsonFile.find((image) => image.id == req.body.id);
+    if (!imageToRemove.url.includes("pixabay")) {
+      const blobServiceClient = await BlobServiceClient.fromConnectionString(
+        process.env.AZURE_STORAGE_CONNECTION_STRING
+      );
+      const containerClient = await blobServiceClient.getContainerClient(
+        "photos"
+      );
+      let urlParts = imageToRemove.url.split("/");
+      const blockBlobClient = containerClient.getBlockBlobClient(
+        urlParts[urlParts.length - 1]
+      );
+      await blockBlobClient.delete();
+    }
     let imageLocation = jsonFile.indexOf(imageToRemove);
     jsonFile.splice(imageLocation, 1);
-    if (imageToRemove.isBase64 && !imageToRemove.linkDeprecated)
-      await fs.unlink(path.join(imagesDir, imageToRemove.caption));
     await fs.writeFile(jsonFilePath, JSON.stringify(jsonFile));
   }
   res.end();
@@ -138,15 +163,6 @@ router.get("/photos-from-web", async (req, res) => {
     );
   } else res.status(400).send("no query provided");
 });
-
-const addFileToDB = async (photo) => {
-  // const uploadBlob = await BlockBlobClient.upload(photo)
-  let res = photo.url.replace(/^data:image\/\w+;base64,/, "");
-  let buf = Buffer.from(res, "base64");
-  let PhotoAbsoluteUrl = path.join(imagesDir, photo.caption);
-  await fs.writeFile(PhotoAbsoluteUrl, buf);
-  photo.url = photo.caption;
-};
 
 const checkIfExistsInJson = async (fileName, jsonFile) => {
   return new Promise((resolve) => {
