@@ -2,7 +2,7 @@
     <mat-icon matSuffix [mat-dialog-close]="true">arrow_back</mat-icon>
   <carousel class="carousel-container" [noPause]="false">
     <slide *ngFor="let image of images" >
-      <img [src]="image.url" class="carousel-image">
+      <img [src]="image.url  || 'assets/noImage.jpg'" class="carousel-image">
       <div class="carousel-caption d-none d-md-block">
         <h3>{{image.caption}}</h3>
       </div>
