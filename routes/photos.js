@@ -33,9 +33,10 @@ router.post("/addPhotos", upload.array("files"), async (req, res) => {
     });
   else {
     let Photo = JSON.parse(req.body.photos);
-    Photo.url = req.files.find(
-      (file) => file.originalname === Photo.caption
-    ).url;
+    if (!Photo.url)
+      Photo.url = req.files.find(
+        (file) => file.originalname === Photo.caption
+      ).url;
     newPhotosArray.push(Photo);
   }
   jsonFile = await setJsonFileIfNotExist();
