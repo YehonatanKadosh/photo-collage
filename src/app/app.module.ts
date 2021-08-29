@@ -43,6 +43,7 @@ import { ListViewComponent } from './components/list-view/list-view.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { CategoriesControlComponent } from './components/categories-control/categories-control.component';
+import { AboutComponent } from './components/about/about.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { CategoriesControlComponent } from './components/categories-control/cate
     ListViewComponent,
     CarouselComponent,
     CategoriesControlComponent,
+    AboutComponent,
   ],
   imports: [
     materials,

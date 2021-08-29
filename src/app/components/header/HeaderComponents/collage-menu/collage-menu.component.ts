@@ -9,6 +9,7 @@ import { User } from 'src/Modules/User';
 import { UserService } from 'src/app/Services/user-service.service';
 import { Router } from '@angular/router';
 import { CategoriesControlComponent } from 'src/app/components/categories-control/categories-control.component';
+import { AboutComponent } from 'src/app/components/about/about.component';
 
 @Component({
   selector: 'app-collage-menu',
@@ -58,5 +59,8 @@ export class CollageMenuComponent implements OnInit {
     });
   };
 
+  popAbout = () => {
+    this.dialog.open(AboutComponent);
+  };
   ExitClick = () => this.router.navigateByUrl('/');
 }
