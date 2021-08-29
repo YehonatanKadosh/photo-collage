@@ -2,6 +2,15 @@ const express = require("express");
 const fs = require("fs").promises;
 const path = require("path");
 const router = express.Router();
+const multer = require("multer");
+const MulterAzureStorage = require("multer-azure-storage");
+const upload = multer({
+  storage: new MulterAzureStorage({
+    containerName: "photos",
+    containerSecurity: "Blob",
+    azureStorageConnectionString: process.env.AZURE_STORAGE_CONNECTION_STRING,
+  }),
+});
 const jsonFilePath = path.join(
   path.dirname(require.main.filename),
   "userPhotos.json"
@@ -9,18 +18,11 @@ const jsonFilePath = path.join(
 const got = require("got");
 const imagesDir = path.join(path.dirname(require.main.filename), "Images");
 
-router.post("/addPhotos", async (req, res) => {
+router.post("/addPhotos", upload.array("new_images", 100), async (req, res) => {
   let jsonFile = await setJsonFileIfNotExist();
   let itemsProcessed = 0;
-  req.body.forEach(async (photo) => {
-    if (
-      !(await checkIfExistsInJson(
-        photo.isBase64,
-        photo.isBase64 ? photo.caption : photo.url,
-        jsonFile
-      ))
-    ) {
-      if (photo.isBase64) await addImageToDB(photo);
+  req.body.photos.forEach(async (photo) => {
+    if (!(await checkIfExistsInJson(photo.url, jsonFile))) {
       jsonFile.push(photo);
       itemsProcessed++;
     } else itemsProcessed++;
@@ -137,7 +139,8 @@ router.get("/photos-from-web", async (req, res) => {
   } else res.status(400).send("no query provided");
 });
 
-const addImageToDB = async (photo) => {
+const addFileToDB = async (photo) => {
+  // const uploadBlob = await BlockBlobClient.upload(photo)
   let res = photo.url.replace(/^data:image\/\w+;base64,/, "");
   let buf = Buffer.from(res, "base64");
   let PhotoAbsoluteUrl = path.join(imagesDir, photo.caption);
@@ -145,15 +148,10 @@ const addImageToDB = async (photo) => {
   photo.url = photo.caption;
 };
 
-const checkIfExistsInJson = async (isBase64, fileName, jsonFile) => {
+const checkIfExistsInJson = async (fileName, jsonFile) => {
   return new Promise((resolve) => {
     if (jsonFile.length)
-      if (
-        jsonFile.find((photo) =>
-          isBase64 ? photo.caption == fileName : photo.url == fileName
-        )
-      )
-        resolve(true);
+      if (jsonFile.find((photo) => photo.url === fileName)) resolve(true);
       else resolve(false);
     else resolve(false);
   });
@@ -170,4 +168,5 @@ const setJsonFileIfNotExist = async () => {
     }
   });
 };
+
 module.exports = router;
