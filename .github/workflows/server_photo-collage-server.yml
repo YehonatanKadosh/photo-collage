@@ -32,6 +32,7 @@ jobs:
         uses: azure/webapps-deploy@v2
         env:
           PIXABAY_API_URL: ${{ secrets.PIXABAY_API_URL }}
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
         with:
           app-name: photo-collage-server
           slot-name: Production
