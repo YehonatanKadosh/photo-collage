@@ -6,6 +6,7 @@ const jsonFilePath = path.join(
   path.dirname(require.main.filename),
   "userPhotos.json"
 );
+const https = require("https");
 const imagesDir = path.join(path.dirname(require.main.filename), "Images");
 const ServerName = "http://localhost:3000/";
 
@@ -122,6 +123,18 @@ router.post("/removeImage", async (req, res) => {
     await fs.writeFile(jsonFilePath, JSON.stringify(jsonFile));
   }
   res.end();
+});
+
+router.get("/photos-from-web", async (req, res) => {
+  if (req.query.query) {
+    https.get(
+      process.env.PIXABAY_API_URL +
+        `&q=${req.query.query}&per_page=${req.query.amountOfResults || 20}`,
+      (responseFromPixabay) => {
+        res.send(responseFromPixabay);
+      }
+    );
+  } else res.status(400).send("no query provided");
 });
 
 const addImageToDB = async (photo) => {
