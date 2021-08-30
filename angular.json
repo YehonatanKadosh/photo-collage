@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "assets": ["src/assets", "src/web.config", "src/routes.json"],
+            "assets": ["src/assets", "src/routes.json"],
             "outputPath": "dist/PhotoCollage",
             "index": "src/index.html",
             "main": "src/main.ts",
