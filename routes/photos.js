@@ -134,17 +134,21 @@ router.post("/removeImage", async (req, res) => {
   if (jsonFile.length) {
     let imageToRemove = jsonFile.find((image) => image.id == req.body.id);
     if (!imageToRemove.url.includes("pixabay")) {
-      const blobServiceClient = await BlobServiceClient.fromConnectionString(
-        "DefaultEndpointsProtocol=https;AccountName=photosjk;AccountKey=jPF7eeQSyk0cdDplJX5BTwjr3Y3nerhf8dlT1AOmynbUK1YNarUIQNRFI+oiPLJfZyy98I6uJ7hgu5j7eqoEzg==;EndpointSuffix=core.windows.net"
-      );
-      const containerClient = await blobServiceClient.getContainerClient(
-        "photos"
-      );
-      let urlParts = imageToRemove.url.split("/");
-      const blockBlobClient = containerClient.getBlockBlobClient(
-        urlParts[urlParts.length - 1]
-      );
-      await blockBlobClient.delete();
+      try {
+        const blobServiceClient = await BlobServiceClient.fromConnectionString(
+          "DefaultEndpointsProtocol=https;AccountName=photosjk;AccountKey=jPF7eeQSyk0cdDplJX5BTwjr3Y3nerhf8dlT1AOmynbUK1YNarUIQNRFI+oiPLJfZyy98I6uJ7hgu5j7eqoEzg==;EndpointSuffix=core.windows.net"
+        );
+        const containerClient = await blobServiceClient.getContainerClient(
+          "photos"
+        );
+        let urlParts = imageToRemove.url.split("/");
+        const blockBlobClient = containerClient.getBlockBlobClient(
+          urlParts[urlParts.length - 1]
+        );
+        await blockBlobClient.delete();
+      } catch (err) {
+        console.log(err);
+      }
     }
     let imageLocation = jsonFile.indexOf(imageToRemove);
     jsonFile.splice(imageLocation, 1);
