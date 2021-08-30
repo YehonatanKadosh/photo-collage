@@ -12,6 +12,7 @@ import { PhotoService } from '../../../../Services/photo-service.service';
 export class PhotosBarComponent implements OnInit {
   Photos: Photo[] = [];
   Files: File[] = [];
+  searching: boolean = false;
 
   constructor(private photoService: PhotoService, private router: Router) {
     this.photoService.getNewPhoto.subscribe(async (file: File) => {
@@ -39,11 +40,13 @@ export class PhotosBarComponent implements OnInit {
     this.photoService.finishedUploading.subscribe(async () => {
       if (this.Photos.length == 0) this.router.navigateByUrl('/PhotoGallery');
       else {
+        this.searching = true;
         await this.photoService
           .saveNewPhotos(this.Photos, this.Files)
           .then(() => this.router.navigateByUrl('/PhotoGallery'));
         this.Files = [];
         this.Photos = [];
+        this.searching = false;
       }
     });
   }
